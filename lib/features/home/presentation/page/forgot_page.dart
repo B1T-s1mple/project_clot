@@ -1,0 +1,47 @@
+import 'package:flutter/material.dart';
+import 'package:scot/features/home/presentation/page/sent_email_adrres.dart';
+import 'package:scot/features/home/presentation/widgets/primary_button.dart';
+import 'package:scot/features/home/presentation/widgets/text_feld_primary.dart';
+
+class ForgotPage extends StatefulWidget {
+  const ForgotPage({super.key});
+
+  @override
+  State<ForgotPage> createState() => _ForgotPageState();
+}
+
+class _ForgotPageState extends State<ForgotPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 23.0),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  'Forgot Password',
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+            SizedBox(height: 51),
+            text_feld_primary(hintText: 'Enter Email address'),
+            SizedBox(height: 27),
+            primary_button(
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SentEmailAdrres()),
+                );
+              },
+            ),
+            SizedBox(height: 17),
+          ],
+        ),
+      ),
+    );
+  }
+}
