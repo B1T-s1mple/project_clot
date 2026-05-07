@@ -3,7 +3,7 @@ import 'package:scot/core/constants/color/app_color.dart';
 
 class PrimaryButton extends StatelessWidget {
   final Function? ontap;
-  PrimaryButton({super.key, this.ontap});
+  const PrimaryButton({super.key, this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class PrimaryButton extends StatelessWidget {
         ),
 
         onPressed: () {
-          ontap;
+          ontap!();
         },
 
         child: Center(

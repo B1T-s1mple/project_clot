@@ -15,31 +15,33 @@ class _ForgotPageState extends State<ForgotPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 23.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Forgot Password',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
-                ),
-              ],
-            ),
-            SizedBox(height: 51),
-            TextFeldPrimary(hintTextl:  'Enter Email address'),
-            SizedBox(height: 27),
-            PrimaryButton(
-              ontap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SentEmailAdrres()),
-                );
-              },
-            ),
-            SizedBox(height: 17),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 23.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    'Forgot Password',
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
+                  ),
+                ],
+              ),
+              SizedBox(height: 51),
+              TextFeldPrimary(hintTextl:  'Enter Email address'),
+              SizedBox(height: 27),
+              PrimaryButton(
+                ontap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SentEmailAdrres()),
+                  );
+                },
+              ),
+              SizedBox(height: 17),
+            ],
+          ),
         ),
       ),
     );
