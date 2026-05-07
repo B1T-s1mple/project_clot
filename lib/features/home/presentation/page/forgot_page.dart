@@ -28,9 +28,9 @@ class _ForgotPageState extends State<ForgotPage> {
               ],
             ),
             SizedBox(height: 51),
-            text_feld_primary(hintText: 'Enter Email address'),
+            TextFeldPrimary(hintTextl:  'Enter Email address'),
             SizedBox(height: 27),
-            primary_button(
+            PrimaryButton(
               ontap: () {
                 Navigator.push(
                   context,

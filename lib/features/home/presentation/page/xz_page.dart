@@ -72,8 +72,7 @@ class _XzPageState extends State<XzPage> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
-                              color: AppColor.secondaryColors,
-
+                color: AppColor.secondaryColors,
               ),
               width: double.infinity,
               child: DropdownButton<String>(

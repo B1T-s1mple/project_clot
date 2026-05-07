@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:scot/features/home/presentation/page/first_page.dart';
 import 'package:scot/features/home/presentation/page/xz_page.dart';
 
 void main() {
@@ -16,7 +15,12 @@ class MyApp extends StatelessWidget {
 
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+
+      theme: ThemeData(
+        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: Colors.white,
+      ),
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/core/constants/images/app_images.dart';
 import 'package:scot/features/home/presentation/page/create_page.dart';
 import 'package:scot/features/home/presentation/widgets/primary_button.dart';
 import 'package:scot/features/home/presentation/widgets/text_feld_primary.dart';
@@ -30,12 +31,12 @@ class _SignPageState extends State<SignPage> {
               ],
             ),
             SizedBox(height: 51),
-            text_feld_primary(hintText: 'Email'),
+            TextFeldPrimary(hintTextl: 'Email'),
             SizedBox(height: 15),
-            text_feld_primary(hintText: 'Password'),
+            TextFeldPrimary(hintTextl: 'Password'),
 
             SizedBox(height: 27),
-            primary_button(
+            PrimaryButton(
               ontap: () {
                 Navigator.push(
                   context,
@@ -103,7 +104,7 @@ class _SignPageState extends State<SignPage> {
                 child: Row(
                   children: [
                     SizedBox(width: 7),
-                    Image.asset('images/google.png', width: 24, height: 24),
+                    Image.asset(AppImages.googleicon, width: 24, height: 24),
                     SizedBox(width: 60),
                     Text(
                       'Continue With Google',

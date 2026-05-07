@@ -2,33 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 
 class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({super.key});
+  final Function? ontap;
+  PrimaryButton({super.key, this.ontap});
 
   @override
   Widget build(BuildContext context) {
-    return primary_button(ontap: (){});
-  }
-}
+    return SizedBox(
+      height: 50,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColor.primaryColors,
+        ),
 
-primary_button({ required Function ontap}) {
-  return SizedBox(
-    height: 50,
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(backgroundColor: AppColor.primaryColors),
+        onPressed: () {
+          ontap;
+        },
 
-      onPressed: () {
-        ontap();
-      },
-      child: Center(
-        child: Text(
-          'Continue',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
+        child: Center(
+          child: Text(
+            'Continue',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+    
+  }
 }

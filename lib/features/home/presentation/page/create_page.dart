@@ -28,15 +28,15 @@ class _CreatePageState extends State<CreatePage> {
               ],
             ),
             SizedBox(height: 51),
-            text_feld_primary(hintText: 'Firstname'),
+            TextFeldPrimary(hintTextl: 'Firstname'),
             SizedBox(height: 15),
-            text_feld_primary(hintText: 'Lastname'),
+            TextFeldPrimary(hintTextl: 'Lastname'),
             SizedBox(height: 15),
-            text_feld_primary(hintText: 'Email Address'),
+            TextFeldPrimary(hintTextl: 'Email Address'),
             SizedBox(height: 15),
-            text_feld_primary(hintText: 'Password'),
+            TextFeldPrimary(hintTextl: 'Password'),
             SizedBox(height: 40),
-            primary_button(
+            PrimaryButton(
               ontap: () {
                 Navigator.push(
                   context,
