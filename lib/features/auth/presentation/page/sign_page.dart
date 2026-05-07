@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/core/constants/images/app_images.dart';
-import 'package:scot/features/home/presentation/page/create_page.dart';
-import 'package:scot/features/home/presentation/widgets/primary_button.dart';
-import 'package:scot/features/home/presentation/widgets/text_feld_primary.dart';
+import 'package:scot/features/auth/presentation/page/create_page.dart';
+import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
+import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
 
 class SignPage extends StatefulWidget {
   const SignPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scot/features/home/presentation/page/sent_email_adrres.dart';
-import 'package:scot/features/home/presentation/widgets/primary_button.dart';
-import 'package:scot/features/home/presentation/widgets/text_feld_primary.dart';
+import 'package:scot/features/auth/presentation/page/sent_email_adrres.dart';
+import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
+import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
 
 class ForgotPage extends StatefulWidget {
   const ForgotPage({super.key});

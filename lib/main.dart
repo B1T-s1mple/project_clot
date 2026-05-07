@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scot/features/home/presentation/page/xz_page.dart';
+import 'package:scot/features/auth/presentation/page/xz_page.dart';
 
 void main() {
   runApp(const MyApp());
