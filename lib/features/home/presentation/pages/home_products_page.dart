@@ -12,6 +12,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
@@ -27,6 +28,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
+          mainAxisSize: .max,
           children: [
             Row(
               children: [
@@ -40,7 +42,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 30,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.70,
                 ),
                 itemCount: 10,
                 itemBuilder: (context, index) {
