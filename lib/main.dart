@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scot/features/auth/presentation/page/first_page.dart';
+import 'package:scot/features/home/presentation/pages/home_first_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FirstPage(),
+      home: HomeFirstPage(),
 
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

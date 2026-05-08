@@ -1,0 +1,118 @@
+import 'package:flutter/material.dart';
+import 'package:scot/core/constants/color/app_color.dart';
+
+class HomeProductsPage extends StatefulWidget {
+  const HomeProductsPage({super.key});
+
+  @override
+  State<HomeProductsPage> createState() => _HomeProductsPageState();
+}
+
+class _HomeProductsPageState extends State<HomeProductsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        titleSpacing: 24,
+        title: IconButton(
+          autofocus: true,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text('Hoodies (240)',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),)
+              ],
+            ),
+            SizedBox(height: 23,),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 30,
+                  mainAxisSpacing: 30,
+                  childAspectRatio: 0.75,
+                ),
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Column(
+                    children: [
+                      Container(
+                        height: 281,
+                        decoration: BoxDecoration(
+                          color: AppColor.secondaryColors,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 220,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade400,
+
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(8),
+                                  topRight: Radius.circular(8),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: .end,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.favorite_border,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 4),
+                                Text(
+                                  "Men's Harrington Jacket",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                SizedBox(width: 4),
+                                Text(
+                                  "\$148.00",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
