@@ -12,13 +12,16 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
+
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         titleSpacing: 24,
         title: IconButton(
-          autofocus: true,
+          style: IconButton.styleFrom(
+            backgroundColor: AppColor.secondaryColors,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -32,17 +35,20 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
           children: [
             Row(
               children: [
-                Text('Hoodies (240)',style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),)
+                Text(
+                  'Hoodies (240)',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                ),
               ],
             ),
-            SizedBox(height: 23,),
+            SizedBox(height: 23),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 30,
-                  childAspectRatio: 0.70,
+                  mainAxisExtent: 281,
                 ),
                 itemCount: 10,
                 itemBuilder: (context, index) {

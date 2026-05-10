@@ -10,6 +10,9 @@ class XzPage extends StatefulWidget {
 
 class _XzPageState extends State<XzPage> {
   String? yosh;
+  bool men = true;
+  bool women = false;
+  final age = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,33 +37,54 @@ class _XzPageState extends State<XzPage> {
               children: [
                 InkWell(
                   borderRadius: BorderRadius.circular(40),
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      men = true;
+                      women = false;
+                    });
+                  },
                   child: Container(
                     width: 179,
                     height: 52,
                     decoration: BoxDecoration(
-                      color: AppColor.primaryColors,
+                      color: men
+                          ? AppColor.primaryColors
+                          : AppColor.secondaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Center(
-                      child: Text('Men', style: TextStyle(color: Colors.white)),
+                      child: Text(
+                        'Men',
+                        style: TextStyle(
+                          color: men ? Colors.white : Colors.black,
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 InkWell(
                   borderRadius: BorderRadius.circular(40),
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      men = false;
+                      women = true;
+                    });
+                  },
                   child: Container(
                     width: 179,
                     height: 52,
                     decoration: BoxDecoration(
-                      color: AppColor.secondaryColors,
+                      color: women
+                          ? AppColor.primaryColors
+                          : AppColor.secondaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Center(
                       child: Text(
                         'Women',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                          color: women ? Colors.white : Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -69,31 +93,51 @@ class _XzPageState extends State<XzPage> {
             ),
             SizedBox(height: 56),
             Row(children: [Text('How Old are you ?')]),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: AppColor.secondaryColors,
-              ),
-              width: double.infinity,
-              child: DropdownButton<String>(
-                menuWidth: 342,
-                underline: null,
-                dropdownColor: AppColor.secondaryColors,
-                focusColor: AppColor.secondaryColors,
-
-                menuMaxHeight: 56,
-                value: yosh,
-                hint: Text('Age Range'),
-                items: [
-                  DropdownMenuItem(value: '10-14', child: Text('10-14')),
-                  DropdownMenuItem(value: '14-18', child: Text('14-18')),
-                  DropdownMenuItem(value: '22-26', child: Text('22-26')),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    yosh = value;
-                  });
-                },
+            TextField(
+              controller: age,
+              decoration: InputDecoration(
+                contentPadding: .symmetric(vertical: 22),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: .circular(100),
+                  borderSide: BorderSide(),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: .circular(100),
+                  borderSide: BorderSide(),
+                ),
+                filled: true,
+                prefix: Padding(padding: .only(left: 16)),
+                hintText: 'Age Range',
+                hintStyle: TextStyle(fontSize: 16),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: PopupMenuButton<String>(
+                    tooltip: '',
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.keyboard_arrow_down_sharp),
+                      ),
+                    ),
+                    onSelected: (value) {
+                      age.text = value;
+                    },
+                    itemBuilder: (context) =>
+                        <String>[
+                          '5 - 12',
+                          '13 - 17',
+                          '18 - 24',
+                          '25 - 34',
+                          '35 - 44',
+                        ].map((age) {
+                          return PopupMenuItem<String>(
+                            value: age,
+                            child: Text(age, style: TextStyle(fontSize: 15)),
+                          );
+                        }).toList(),
+                  ),
+                ),
               ),
             ),
             Spacer(),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:scot/features/home/presentation/notifications_prders/notification_first.dart';
-import 'package:scot/features/home/presentation/pages/home_first_page.dart';
+import 'package:scot/features/settings/presentation/pages/adress.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: NotificationFirst(),
+      home: Adress(),
 
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

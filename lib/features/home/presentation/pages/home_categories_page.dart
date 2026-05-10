@@ -14,11 +14,15 @@ class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
+
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         titleSpacing: 24,
         title: IconButton(
-          autofocus: true,
+          style: IconButton.styleFrom(
+            backgroundColor: AppColor.secondaryColors,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
