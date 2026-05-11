@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scot/features/settings/presentation/pages/adress.dart';
+import 'package:scot/features/settings/presentation/pages/firs_page_settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Adress(),
+      home: FirsPageSettings(),
 
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class XzPage extends StatefulWidget {
   const XzPage({super.key});
@@ -148,7 +149,12 @@ class _XzPageState extends State<XzPage> {
                   backgroundColor: AppColor.primaryColors,
                 ),
 
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => Bar()),
+                  );
+                },
                 child: Center(
                   child: Text(
                     'Finish',

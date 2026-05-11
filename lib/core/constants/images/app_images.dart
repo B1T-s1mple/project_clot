@@ -3,4 +3,6 @@ class AppImages {
   static const String sentEmail = 'images/sent.png';
   static const String googleicon = 'images/google.png';
   static const String bell = 'images/bell.png';
+    static const String master_card = 'images/master_card.png';
+
 }

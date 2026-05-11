@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/auth/presentation/page/sign_page.dart';
+import 'package:scot/features/settings/presentation/pages/adress.dart';
+import 'package:scot/features/settings/presentation/pages/payment.dart';
+import 'package:scot/features/settings/presentation/pages/wishlist.dart';
 
 class FirsPageSettings extends StatefulWidget {
   const FirsPageSettings({super.key});
@@ -16,6 +20,8 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
     "Help",
     "Support",
   ];
+  final List<Widget> pages = [Adress(), Wishlist(), Payment()];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +99,12 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
               itemBuilder: (context, index) {
                 return InkWell(
                   borderRadius: BorderRadius.circular(34567),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => pages[index]),
+                    );
+                  },
                   child: Container(
                     height: 56,
                     decoration: BoxDecoration(
@@ -124,7 +135,12 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
               children: [
                 TextButton(
                   style: TextButton.styleFrom(),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignPage()),
+                    );
+                  },
                   child: Text(
                     'Sign Out',
                     style: TextStyle(
