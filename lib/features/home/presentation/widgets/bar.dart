@@ -7,8 +7,9 @@ import 'package:scot/features/home/presentation/pages/home_first_page.dart';
 import 'package:scot/features/settings/presentation/pages/firs_page_settings.dart';
 // Importlaringiz qoladi...
 
+// ignore: must_be_immutable
 class Bar extends StatefulWidget {
-  const Bar({super.key});
+  Bar({super.key, });
 
   @override
   State<Bar> createState() => _BarState();
@@ -18,10 +19,10 @@ class _BarState extends State<Bar> {
   int _currentIndex = 0;
 
   final List<Widget> pages = [
-     HomeFirstPage(),
-     NotificationSecon(),
-     OrdersSeconHaveInfo(),
-     FirsPageSettings(),
+    HomeFirstPage(),
+    NotificationSecon(),
+    OrdersSeconHaveInfo(),
+    FirsPageSettings(),
   ];
 
   @override
@@ -35,15 +36,15 @@ class _BarState extends State<Bar> {
             _currentIndex = index;
           });
         },
-        
+
         selectedItemColor: AppColor.primaryColors,
-        unselectedItemColor: const Color(0x80272727), 
-        
+        unselectedItemColor: const Color(0x80272727),
+
         showSelectedLabels: false,
         showUnselectedLabels: false,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
-        elevation: 10, 
+        elevation: 10,
 
         items: const [
           BottomNavigationBarItem(

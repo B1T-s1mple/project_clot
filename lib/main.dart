@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:scot/features/filter/presentation/pages/filter_page.dart';
+import 'package:scot/features/filter/presentation/pages/widgets/three.dart';
 import 'package:scot/features/settings/presentation/pages/adress.dart';
 import 'package:scot/features/settings/presentation/pages/firs_page_settings.dart';
 
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FirsPageSettings(),
+      home: FilterPage(),
 
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
