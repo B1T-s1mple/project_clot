@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
-import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
 import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
 
 class AddAdress extends StatefulWidget {
@@ -39,7 +38,7 @@ class _AddAdressState extends State<AddAdress> {
         child: Column(
           spacing: 12,
           children: [
-            SizedBox(height: 25,),
+            SizedBox(height: 25),
             TextFeldPrimary(hintTextl: 'Street Address'),
             TextFeldPrimary(hintTextl: 'city'),
             Row(
@@ -70,7 +69,8 @@ class _AddAdressState extends State<AddAdress> {
                   ),
                 ),
               ),
-            ),SizedBox(height: 10,)
+            ),
+            SizedBox(height: 10),
           ],
         ),
       ),

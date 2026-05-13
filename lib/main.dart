@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:scot/features/auth/presentation/page/first_page.dart';
-import 'package:scot/features/cart/presentation/page/cart_page.dart';
 
 void main() {
   runApp(const MyApp());
