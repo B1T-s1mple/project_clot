@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:scot/features/filter/presentation/pages/filter_page.dart';
-import 'package:scot/features/filter/presentation/pages/widgets/three.dart';
-import 'package:scot/features/settings/presentation/pages/adress.dart';
-import 'package:scot/features/settings/presentation/pages/firs_page_settings.dart';
+import 'package:scot/features/auth/presentation/page/first_page.dart';
+import 'package:scot/features/cart/presentation/page/cart_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FilterPage(),
+      home: FirstPage(),
 
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

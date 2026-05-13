@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/cart/presentation/page/inside_product_inforamtions.dart';
+import 'package:scot/features/filter/presentation/pages/filter_page.dart';
 import 'package:scot/features/home/presentation/pages/home_categories_page.dart';
-import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class HomeFirstPage extends StatefulWidget {
   const HomeFirstPage({super.key});
@@ -18,6 +19,7 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         toolbarHeight: 70,
         surfaceTintColor: Colors.white,
@@ -57,7 +59,13 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
           child: Column(
             children: [
               InkWell(
-                onTap: () {},
+                borderRadius: BorderRadius.circular(100),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FilterPage()),
+                  );
+                },
                 child: Container(
                   width: double.infinity,
                   height: 50,
@@ -160,80 +168,93 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        Container(
-                          width: 159,
-                          height: 281,
-                          decoration: BoxDecoration(
-                            color: AppColor.secondaryColors,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 159,
-                                height: 220,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade400,
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    InsideProductInforamtions(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 159,
+                            height: 281,
+                            decoration: BoxDecoration(
+                              color: AppColor.secondaryColors,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 159,
+                                  height: 220,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade400,
 
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8),
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(8),
+                                      topRight: Radius.circular(8),
+                                    ),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: .end,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                if (favoriteIndexes.contains(
+                                                  index,
+                                                )) {
+                                                  favoriteIndexes.remove(index);
+                                                } else {
+                                                  favoriteIndexes.add(index);
+                                                }
+                                              });
+                                            },
+                                            icon: Icon(
+                                              favoriteIndexes.contains(index)
+                                                  ? Icons.favorite
+                                                  : Icons.favorite_border,
+                                              color:
+                                                  favoriteIndexes.contains(
+                                                    index,
+                                                  )
+                                                  ? Colors.red
+                                                  : Colors.black,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                child: Column(
+                                Row(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: .end,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              if (favoriteIndexes.contains(
-                                                index,
-                                              )) {
-                                                favoriteIndexes.remove(index);
-                                              } else {
-                                                favoriteIndexes.add(index);
-                                              }
-                                            });
-                                          },
-                                          icon: Icon(
-                                            favoriteIndexes.contains(index)
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color:
-                                                favoriteIndexes.contains(index)
-                                                ? Colors.red
-                                                : Colors.black,
-                                          ),
-                                        ),
-                                      ],
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "Men's Harrington Jacket",
+                                      style: TextStyle(fontSize: 12),
                                     ),
                                   ],
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "Men's Harrington Jacket",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "\$148.00",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
+                                Row(
+                                  children: [
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "\$148.00",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
