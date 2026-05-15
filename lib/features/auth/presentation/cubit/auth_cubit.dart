@@ -12,9 +12,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       await authRepo.register(request);
-      emit(AuthSuccess("Muvaffaqiyatli ro'yxatdan o'tdingiz!")); 
+      emit(AuthSuccess("Muvaffaqiyatli ro'yxatdan o'tdingiz!"));
     } catch (e) {
-      emit(AuthError(e.toString())); 
+      emit(AuthError(e.toString()));
     }
   }
 
@@ -23,6 +23,19 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await authRepo.login(request);
       emit(AuthSuccess("kidin euuu"));
+    } catch (e) {
+      emit(AuthError(e.toString()));
+    }
+  }
+
+  Future<void> completeUserProfile({
+    required int userId,
+    required agePrifile request,
+  }) async {
+    emit(AuthLoading());
+    try {
+      await authRepo.completeProfile(userId: userId, request: request);
+      emit(AuthSuccess("yoshini endi bilama"));
     } catch (e) {
       emit(AuthError(e.toString()));
     }

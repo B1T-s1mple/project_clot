@@ -49,4 +49,32 @@ class AuthRepo {
       throw "Xatolik: $e";
     }
   }
+
+  Future<void> completeProfile({
+    required int userId,
+    required agePrifile request,
+  }) async {
+    try {
+      final response = await http.patch(
+        Uri.parse("$baseUrl/auth/complete-profile/$userId"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: jsonEncode(request.toJson()),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return;
+      } else {
+        if (response.body.isEmpty) {
+          throw "Server profilni yangilay olmadi.";
+        }
+        final data = jsonDecode(response.body);
+        throw data.toString();
+      }
+    } catch (e) {
+      throw "Xatolik: $e";
+    }
+  }
 }

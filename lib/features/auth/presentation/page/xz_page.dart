@@ -94,17 +94,18 @@ class _XzPageState extends State<XzPage> {
             ),
             SizedBox(height: 56),
             Row(children: [Text('How Old are you ?')]),
+            SizedBox(height: 15),
             TextField(
               controller: age,
               decoration: InputDecoration(
                 contentPadding: .symmetric(vertical: 22),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: .circular(100),
-                  borderSide: BorderSide(),
+                  borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: .circular(100),
-                  borderSide: BorderSide(),
+                  borderSide: BorderSide.none,
                 ),
                 filled: true,
                 prefix: Padding(padding: .only(left: 16)),
@@ -134,6 +135,7 @@ class _XzPageState extends State<XzPage> {
                         ].map((age) {
                           return PopupMenuItem<String>(
                             value: age,
+
                             child: Text(age, style: TextStyle(fontSize: 15)),
                           );
                         }).toList(),

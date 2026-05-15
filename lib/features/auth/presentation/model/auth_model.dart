@@ -31,3 +31,20 @@ class LoginRequest {
     return {'email': email, 'password': password};
   }
 }
+// ignore: camel_case_types
+class agePrifile {
+  final String gender;
+  final String age;
+
+  agePrifile({
+    required this.gender,
+    required this.age,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'gender': gender,
+      'age': age,
+    };
+  }
+}
