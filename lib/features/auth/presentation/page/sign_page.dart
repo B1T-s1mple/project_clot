@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/core/constants/images/app_images.dart';
+import 'package:scot/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:scot/features/auth/presentation/cubit/auth_state.dart';
+import 'package:scot/features/auth/presentation/model/auth_model.dart';
 import 'package:scot/features/auth/presentation/page/create_page.dart';
+import 'package:scot/features/auth/presentation/page/xz_page.dart';
 import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
 import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
 
@@ -13,6 +18,9 @@ class SignPage extends StatefulWidget {
 }
 
 class _SignPageState extends State<SignPage> {
+  final controleremail = TextEditingController();
+  final controlerpassword = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +39,64 @@ class _SignPageState extends State<SignPage> {
                 ],
               ),
               SizedBox(height: 51),
-              TextFeldPrimary(hintTextl: 'Email'),
+              TextFeldPrimary(
+                hintTextl: 'Email',
+                controlerprimary: controleremail,
+              ),
               SizedBox(height: 15),
-              TextFeldPrimary(hintTextl: 'Password'),
-        
+              TextFeldPrimary(
+                hintTextl: 'Password',
+                controlerprimary: controlerpassword,
+              ),
+
               SizedBox(height: 27),
-              PrimaryButton(
-                ontap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CreatePage()),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => XzPage()),
+                    );
+                  }
+                  if (state is AuthError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return PrimaryButton(
+                    ontap: () {
+                      if (controleremail.text.isNotEmpty &&
+                          controlerpassword.text.isNotEmpty) {
+                        final request = LoginRequest(
+                          email: controleremail.text.trim(),
+                          password: controlerpassword.text.trim(),
+                        );
+
+                        context.read<AuthCubit>().loginUser(request);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("tori kiritse kirit bomasa 👹👹👹"),
+                          ),
+                        );
+                      }
+                    },
                   );
                 },
               ),
@@ -69,10 +125,10 @@ class _SignPageState extends State<SignPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-        
+
                     backgroundColor: AppColor.secondaryColors,
                   ),
-        
+
                   onPressed: () {},
                   child: Row(
                     children: [
@@ -96,10 +152,10 @@ class _SignPageState extends State<SignPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-        
+
                     backgroundColor: AppColor.secondaryColors,
                   ),
-        
+
                   onPressed: () {},
                   child: Row(
                     children: [
@@ -124,10 +180,10 @@ class _SignPageState extends State<SignPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     elevation: 0,
-        
+
                     backgroundColor: AppColor.secondaryColors,
                   ),
-        
+
                   onPressed: () {},
                   child: Row(
                     children: [

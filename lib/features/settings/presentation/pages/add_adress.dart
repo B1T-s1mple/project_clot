@@ -10,6 +10,11 @@ class AddAdress extends StatefulWidget {
 }
 
 class _AddAdressState extends State<AddAdress> {
+  final controllerAdres = TextEditingController();
+  final controllerstate = TextEditingController();
+  final controllercode = TextEditingController();
+  final controllercity = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,13 +44,29 @@ class _AddAdressState extends State<AddAdress> {
           spacing: 12,
           children: [
             SizedBox(height: 25),
-            TextFeldPrimary(hintTextl: 'Street Address'),
-            TextFeldPrimary(hintTextl: 'city'),
+            TextFeldPrimary(
+              hintTextl: 'Street Address',
+              controlerprimary: controllerAdres,
+            ),
+            TextFeldPrimary(
+              hintTextl: 'city',
+              controlerprimary: controllercity,
+            ),
             Row(
               children: [
-                Expanded(child: TextFeldPrimary(hintTextl: 'State')),
+                Expanded(
+                  child: TextFeldPrimary(
+                    hintTextl: 'State',
+                    controlerprimary: controllerstate,
+                  ),
+                ),
                 SizedBox(width: 12),
-                Expanded(child: TextFeldPrimary(hintTextl: 'Zip Code')),
+                Expanded(
+                  child: TextFeldPrimary(
+                    hintTextl: 'Zip Code',
+                    controlerprimary: controllercode,
+                  ),
+                ),
               ],
             ),
             Spacer(),

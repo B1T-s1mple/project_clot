@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scot/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:scot/features/auth/presentation/cubit/auth_state.dart';
+import 'package:scot/features/auth/presentation/model/auth_model.dart';
 import 'package:scot/features/auth/presentation/page/forgot_page.dart';
+import 'package:scot/features/auth/presentation/page/sign_page.dart';
 import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
 import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
 
@@ -11,6 +16,21 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
+  final controllerFirstName = TextEditingController();
+  final controllerLastName = TextEditingController();
+  final controllerEmail = TextEditingController();
+  final controllerPassword = TextEditingController();
+
+  @override
+  void dispose() {
+    controllerFirstName.dispose();
+    controllerLastName.dispose();
+    controllerEmail.dispose();
+    controllerPassword.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,19 +49,78 @@ class _CreatePageState extends State<CreatePage> {
                 ],
               ),
               SizedBox(height: 51),
-              TextFeldPrimary(hintTextl: 'Firstname'),
+              TextFeldPrimary(
+                hintTextl: 'Firstname',
+                controlerprimary: controllerFirstName,
+              ),
               SizedBox(height: 15),
-              TextFeldPrimary(hintTextl: 'Lastname'),
+              TextFeldPrimary(
+                hintTextl: 'Lastname',
+                controlerprimary: controllerLastName,
+              ),
               SizedBox(height: 15),
-              TextFeldPrimary(hintTextl: 'Email Address'),
+              TextFeldPrimary(
+                hintTextl: 'Email Address',
+                controlerprimary: controllerEmail,
+              ),
               SizedBox(height: 15),
-              TextFeldPrimary(hintTextl: 'Password'),
+              TextFeldPrimary(
+                hintTextl: 'Password',
+                controlerprimary: controllerPassword,
+              ),
               SizedBox(height: 40),
-              PrimaryButton(
-                ontap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ForgotPage()),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignPage()),
+                    );
+                  }
+                  if (state is AuthError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.error),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  return PrimaryButton(
+                    ontap: () {
+                      if (controllerFirstName.text.isNotEmpty &&
+                          controllerLastName.text.isNotEmpty &&
+                          controllerEmail.text.isNotEmpty &&
+                          controllerPassword.text.isNotEmpty) {
+                        final request = RegisterRequest(
+                          firstName: controllerFirstName.text.trim(),
+                          lastName: controllerLastName.text.trim(),
+                          email: controllerEmail.text.trim(),
+                          password: controllerPassword.text.trim(),
+                        );
+
+                        context.read<AuthCubit>().registerUser(request);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              "Iltimos, barcha maydonlarni to'ldiring!",
+                            ),
+                          ),
+                        );
+                      }
+                    },
                   );
                 },
               ),

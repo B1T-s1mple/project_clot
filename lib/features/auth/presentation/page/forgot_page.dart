@@ -11,8 +11,11 @@ class ForgotPage extends StatefulWidget {
 }
 
 class _ForgotPageState extends State<ForgotPage> {
+
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  final controlemail = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -29,7 +32,7 @@ class _ForgotPageState extends State<ForgotPage> {
                 ],
               ),
               SizedBox(height: 51),
-              TextFeldPrimary(hintTextl:  'Enter Email address'),
+              TextFeldPrimary(hintTextl:  'Enter Email address', controlerprimary: controlemail,),
               SizedBox(height: 27),
               PrimaryButton(
                 ontap: () {

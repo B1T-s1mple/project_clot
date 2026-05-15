@@ -10,6 +10,10 @@ class AddCard extends StatefulWidget {
 }
 
 class _AddCardState extends State<AddCard> {
+  final controllercard = TextEditingController();
+  final controllerccv = TextEditingController();
+  final controllerexp = TextEditingController();
+  final controllername = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,15 +43,31 @@ class _AddCardState extends State<AddCard> {
           spacing: 12,
           children: [
             SizedBox(height: 25),
-            TextFeldPrimary(hintTextl: 'Card Number'),
+            TextFeldPrimary(
+              hintTextl: 'Card Number',
+              controlerprimary: controllercard,
+            ),
             Row(
               children: [
-                Expanded(child: TextFeldPrimary(hintTextl: 'CCV')),
+                Expanded(
+                  child: TextFeldPrimary(
+                    hintTextl: 'CCV',
+                    controlerprimary: controllerccv,
+                  ),
+                ),
                 SizedBox(width: 12),
-                Expanded(child: TextFeldPrimary(hintTextl: 'Exp')),
+                Expanded(
+                  child: TextFeldPrimary(
+                    hintTextl: 'Exp',
+                    controlerprimary: controllerexp,
+                  ),
+                ),
               ],
             ),
-            TextFeldPrimary(hintTextl: 'Cardholder Name'),
+            TextFeldPrimary(
+              hintTextl: 'Cardholder Name',
+              controlerprimary: controllername,
+            ),
 
             Spacer(),
             SizedBox(
