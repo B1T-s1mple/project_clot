@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/auth/presentation/model/auth_model.dart'; // import qo'shildi
+import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class XzPage extends StatefulWidget {
@@ -10,6 +12,7 @@ class XzPage extends StatefulWidget {
 }
 
 class _XzPageState extends State<XzPage> {
+  final AuthRepo _authRepo = AuthRepo();
   String? yosh;
   bool men = true;
   bool women = false;
@@ -22,7 +25,7 @@ class _XzPageState extends State<XzPage> {
         padding: const EdgeInsets.symmetric(horizontal: 23.0),
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
                 Text(
                   'Tell us About yourself',
@@ -30,11 +33,11 @@ class _XzPageState extends State<XzPage> {
                 ),
               ],
             ),
-            SizedBox(height: 51),
-            Row(children: [Text('Who do you shop for ?')]),
-            SizedBox(height: 22),
+            const SizedBox(height: 51),
+            const Row(children: [Text('Who do you shop for ?')]),
+            const SizedBox(height: 22),
             Row(
-              mainAxisAlignment: .spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
                   borderRadius: BorderRadius.circular(40),
@@ -92,25 +95,25 @@ class _XzPageState extends State<XzPage> {
                 ),
               ],
             ),
-            SizedBox(height: 56),
-            Row(children: [Text('How Old are you ?')]),
-            SizedBox(height: 15),
+            const SizedBox(height: 56),
+            const Row(children: [Text('How Old are you ?')]),
+            const SizedBox(height: 15),
             TextField(
               controller: age,
               decoration: InputDecoration(
-                contentPadding: .symmetric(vertical: 22),
+                contentPadding: const EdgeInsets.symmetric(vertical: 22),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: .circular(100),
+                  borderRadius: BorderRadius.circular(100),
                   borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: .circular(100),
+                  borderRadius: BorderRadius.circular(100),
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                prefix: Padding(padding: .only(left: 16)),
+                prefix: const Padding(padding: EdgeInsets.only(left: 16)),
                 hintText: 'Age Range',
-                hintStyle: TextStyle(fontSize: 16),
+                hintStyle: const TextStyle(fontSize: 16),
                 suffixIcon: Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: PopupMenuButton<String>(
@@ -119,31 +122,24 @@ class _XzPageState extends State<XzPage> {
                       padding: const EdgeInsets.only(right: 16),
                       child: IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.keyboard_arrow_down_sharp),
+                        icon: const Icon(Icons.keyboard_arrow_down_sharp),
                       ),
                     ),
                     onSelected: (value) {
                       age.text = value;
                     },
-                    itemBuilder: (context) =>
-                        <String>[
-                          '5 - 12',
-                          '13 - 17',
-                          '18 - 24',
-                          '25 - 34',
-                          '35 - 44',
-                        ].map((age) {
-                          return PopupMenuItem<String>(
-                            value: age,
+                    itemBuilder: (context) => <String>['under 18'].map((age) {
+                      return PopupMenuItem<String>(
+                        value: age,
 
-                            child: Text(age, style: TextStyle(fontSize: 15)),
-                          );
-                        }).toList(),
+                        child: Text(age, style: const TextStyle(fontSize: 15)),
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             SizedBox(
               height: 55,
               child: ElevatedButton(
@@ -151,13 +147,30 @@ class _XzPageState extends State<XzPage> {
                   backgroundColor: AppColor.primaryColors,
                 ),
 
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => Bar()),
-                  );
+                onPressed: () async {
+                  String gender = men ? "Men" : "Women";
+
+                  try {
+                    await _authRepo.completeProfile(
+                      request: agePrifile(gender: gender, age: age.text),
+                      userId: 0,
+                    );
+
+                    if (context.mounted) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Bar()),
+                      );
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(e.toString())));
+                    }
+                  }
                 },
-                child: Center(
+                child: const Center(
                   child: Text(
                     'Finish',
                     style: TextStyle(
@@ -169,7 +182,7 @@ class _XzPageState extends State<XzPage> {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

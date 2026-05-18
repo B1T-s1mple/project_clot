@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scot/features/auth/presentation/page/xz_page.dart';
+import 'package:scot/features/auth/presentation/page/first_page.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'features/auth/presentation/cubit/auth_cubit.dart'; 
 
@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit(AuthRepo()),
       child: MaterialApp(
-        home: XzPage(),
+        // ignore: prefer_const_constructors
+        home: FirstPage(),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

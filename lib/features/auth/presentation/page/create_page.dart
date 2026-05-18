@@ -40,7 +40,7 @@ class _CreatePageState extends State<CreatePage> {
           padding: const EdgeInsets.symmetric(horizontal: 23.0),
           child: Column(
             children: [
-              Row(
+              const Row(
                 children: [
                   Text(
                     'Create Account',
@@ -48,27 +48,27 @@ class _CreatePageState extends State<CreatePage> {
                   ),
                 ],
               ),
-              SizedBox(height: 51),
+              const SizedBox(height: 51),
               TextFeldPrimary(
                 hintTextl: 'Firstname',
                 controlerprimary: controllerFirstName,
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               TextFeldPrimary(
                 hintTextl: 'Lastname',
                 controlerprimary: controllerLastName,
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               TextFeldPrimary(
                 hintTextl: 'Email Address',
                 controlerprimary: controllerEmail,
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               TextFeldPrimary(
                 hintTextl: 'Password',
                 controlerprimary: controllerPassword,
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is AuthSuccess) {
@@ -124,19 +124,19 @@ class _CreatePageState extends State<CreatePage> {
                   );
                 },
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Row(
                 children: [
-                  Text('Forgot Password ? '),
+                  const Text('Forgot Password ? '),
                   InkWell(
                     borderRadius: BorderRadius.circular(40),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ForgotPage()),
+                        MaterialPageRoute(builder: (context) => const ForgotPage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       ' Reset',
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),

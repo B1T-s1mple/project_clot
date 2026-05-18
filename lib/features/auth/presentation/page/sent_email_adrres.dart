@@ -23,8 +23,8 @@ class _SentEmailAdrresState extends State<SentEmailAdrres> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(AppImages.sentEmail, width: 100, height: 100),
-              SizedBox(height: 24),
-              SizedBox(
+              const SizedBox(height: 24),
+              const SizedBox(
                 width: 342,
                 child: Text(
                   textAlign: TextAlign.center,
@@ -32,13 +32,13 @@ class _SentEmailAdrresState extends State<SentEmailAdrres> {
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               InkWell(
                 borderRadius: BorderRadius.circular(40),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => XzPage()),
+                    MaterialPageRoute(builder: (context) => const XzPage()),
                   );
                 },
                 child: Container(
@@ -48,7 +48,7 @@ class _SentEmailAdrresState extends State<SentEmailAdrres> {
                     color: AppColor.primaryColors,
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Return to Login',
                       style: TextStyle(color: Colors.white),

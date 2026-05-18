@@ -23,7 +23,7 @@ class _ForgotPageState extends State<ForgotPage> {
           padding: const EdgeInsets.symmetric(horizontal: 23.0),
           child: Column(
             children: [
-              Row(
+              const Row(
                 children: [
                   Text(
                     'Forgot Password',
@@ -31,18 +31,18 @@ class _ForgotPageState extends State<ForgotPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 51),
+              const SizedBox(height: 51),
               TextFeldPrimary(hintTextl:  'Enter Email address', controlerprimary: controlemail,),
-              SizedBox(height: 27),
+              const SizedBox(height: 27),
               PrimaryButton(
                 ontap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SentEmailAdrres()),
+                    MaterialPageRoute(builder: (context) => const SentEmailAdrres()),
                   );
                 },
               ),
-              SizedBox(height: 17),
+              const SizedBox(height: 17),
             ],
           ),
         ),

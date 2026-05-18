@@ -30,7 +30,7 @@ class _SignPageState extends State<SignPage> {
           padding: const EdgeInsets.symmetric(horizontal: 23.0),
           child: Column(
             children: [
-              Row(
+              const Row(
                 children: [
                   Text(
                     'Sign in',
@@ -38,18 +38,18 @@ class _SignPageState extends State<SignPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 51),
+              const SizedBox(height: 51),
               TextFeldPrimary(
                 hintTextl: 'Email',
                 controlerprimary: controleremail,
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               TextFeldPrimary(
                 hintTextl: 'Password',
                 controlerprimary: controlerpassword,
               ),
 
-              SizedBox(height: 27),
+              const SizedBox(height: 27),
               BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
                   if (state is AuthSuccess) {
@@ -62,7 +62,7 @@ class _SignPageState extends State<SignPage> {
 
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => XzPage()),
+                      MaterialPageRoute(builder: (context) => const XzPage()),
                     );
                   }
                   if (state is AuthError) {
@@ -100,26 +100,26 @@ class _SignPageState extends State<SignPage> {
                   );
                 },
               ),
-              SizedBox(height: 17),
+              const SizedBox(height: 17),
               Row(
                 children: [
-                  Text('Dont have an Account ?'),
+                  const Text('Dont have an Account ?'),
                   InkWell(
                     borderRadius: BorderRadius.circular(40),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CreatePage()),
+                        MaterialPageRoute(builder: (context) => const CreatePage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       ' Create One',
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 71),
+              const SizedBox(height: 71),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -130,7 +130,7 @@ class _SignPageState extends State<SignPage> {
                   ),
 
                   onPressed: () {},
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.apple, color: Colors.black, size: 36),
                       SizedBox(width: 60),
@@ -146,7 +146,7 @@ class _SignPageState extends State<SignPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -159,10 +159,10 @@ class _SignPageState extends State<SignPage> {
                   onPressed: () {},
                   child: Row(
                     children: [
-                      SizedBox(width: 7),
+                      const SizedBox(width: 7),
                       Image.asset(AppImages.googleicon, width: 24, height: 24),
-                      SizedBox(width: 60),
-                      Text(
+                      const SizedBox(width: 60),
+                      const Text(
                         'Continue With Google',
                         style: TextStyle(
                           color: Colors.black,
@@ -174,7 +174,7 @@ class _SignPageState extends State<SignPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -185,7 +185,7 @@ class _SignPageState extends State<SignPage> {
                   ),
 
                   onPressed: () {},
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.facebook, color: Colors.blue, size: 36),
                       SizedBox(width: 60),
@@ -201,7 +201,7 @@ class _SignPageState extends State<SignPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
             ],
           ),
         ),
