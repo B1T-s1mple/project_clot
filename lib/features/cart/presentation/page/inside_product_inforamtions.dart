@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/core/constants/images/app_images.dart';
+import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
+import 'package:scot/features/cart/cubit/product_cubit_state.dart';
+import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/cart/presentation/page/cart_page.dart';
 
 class InsideProductInforamtions extends StatefulWidget {
@@ -24,364 +28,408 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
   bool con5_2 = false;
   int son = 1;
   @override
+  void initState() {
+    // TODO: implement initState
+    context.read<ProductCubit>().getProducts();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            toolbarHeight: 85,
-            backgroundColor: Colors.white,
-            centerTitle: false,
-            titleSpacing: 24,
+      body: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          if (state is ProductsLoading) {
+            return const CircularProgressIndicator.adaptive();
+          } else if (state is ProductError) {
+            return Center(child: Text(state.message));
+          } else if (state is ProductsLoaded) {
+            final ProductModel product = state.products[1];
+            print(product);
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  toolbarHeight: 85,
+                  backgroundColor: Colors.white,
+                  centerTitle: false,
+                  titleSpacing: 24,
 
-            title: IconButton(
-              style: IconButton.styleFrom(
-                backgroundColor: AppColor.secondaryColors,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back_ios_new_rounded),
-            ),
-            actions: [
-              IconButton(
-                style: IconButton.styleFrom(
-                  backgroundColor: AppColor.secondaryColors,
+                  title: IconButton(
+                    style: IconButton.styleFrom(
+                      backgroundColor: AppColor.secondaryColors,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                  ),
+                  actions: [
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColor.secondaryColors,
+                      ),
+                      onPressed: () {},
+                      icon: const Icon(Icons.favorite_border),
+                    ),
+                    const SizedBox(width: 24),
+                  ],
                 ),
-                onPressed: () {},
-                icon: Icon(Icons.favorite_border),
-              ),
-              SizedBox(width: 24),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 281,
-                  child: ListView.separated(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    scrollDirection: Axis.horizontal,
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 281,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: 161,
+                              height: 248,
+                              decoration: BoxDecoration(
+                                color: AppColor.secondaryColors,
+
+                                image: DecorationImage(
+                                  image: NetworkImage(product.images[index]),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(width: 10);
+                          },
+                          itemCount: product.images.length,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              product.name,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 14),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              " \$${product.price.toString()}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: AppColor.primaryColors,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 33),
+                      Padding(
+                        // ignore: prefer_const_constructors
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(100),
+                          onTap: () {
+                            botomsheet(context);
+                          },
+                          child: Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: AppColor.secondaryColors,
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Row(
+                                children: [
+                                  Text('Size', style: TextStyle(fontSize: 16)),
+                                  Spacer(),
+                                  Text(
+                                    'S',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  SizedBox(width: 29),
+                                  Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    size: 34,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(100),
+                          onTap: () {
+                            botomsheet_2(context);
+                          },
+                          child: Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: AppColor.secondaryColors,
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Row(
+                                children: [
+                                  Text('Color', style: TextStyle(fontSize: 16)),
+                                  Spacer(),
+                                  CircleAvatar(
+                                    radius: 8,
+                                    backgroundColor: Color(0xFFB3B68B),
+                                  ),
+                                  SizedBox(width: 29),
+                                  Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    size: 34,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(100),
+                          onTap: () {},
+                          child: Container(
+                            height: 56,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: AppColor.secondaryColors,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    'Quantity',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        son++;
+                                      });
+                                    },
+                                    child: const CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: AppColor.primaryColors,
+                                      foregroundColor: Colors.white,
+                                      child: Icon(Icons.add),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 23),
+                                  Text(
+                                    '$son',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 23),
+                                  InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        if (son > 1) {
+                                          son--;
+                                        }
+                                      });
+                                    },
+                                    child: const CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: AppColor.primaryColors,
+                                      foregroundColor: Colors.white,
+                                      child: Icon(Icons.remove),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 26),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Text(
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black.withValues(alpha: 0.5),
+                          ),
+                          "Built for life and made to last, this full-zip corduroy jacket is part of our Nike Life collection. The spacious fit gives you plenty of room to layer underneath, while the soft corduroy keeps it casual and timeless.",
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Shipping & Returns',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Free standard shipping and free 60-day returns',
+                              style: TextStyle(
+                                color: Colors.black.withValues(alpha: 0.5),
+
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Reviews',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              '4.5 Ratings',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: Row(
+                          children: [
+                            Text(
+                              '213 Reviews',
+                              style: TextStyle(
+                                color: Colors.black.withValues(alpha: 0.5),
+
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                    ],
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
+                  sliver: SliverList.separated(
+                    itemCount: 2,
                     itemBuilder: (context, index) {
                       return Container(
-                        width: 161,
-                        height: 248,
-                        color: AppColor.secondaryColors,
+                        height: 128,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                const CircleAvatar(
+                                  radius: 20,
+                                  backgroundColor: AppColor.secondaryColors,
+                                ),
+                                const SizedBox(width: 20),
+                                const Text(
+                                  'Alex Morgan',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Image.asset(
+                                  AppImages.stars,
+                                  width: 80,
+                                  height: 16,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                color: Colors.black.withValues(alpha: 0.5),
+                              ),
+                              "Gucci transcribes its heritage, creativity, and innovation into a plenitude of collections. From staple items to distinctive\naccessories.",
+                            ),
+                            const SizedBox(height: 4),
+                            const Row(
+                              children: [
+                                Text(
+                                  '12days ago',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return SizedBox(width: 10);
+                      return const SizedBox(height: 12);
                     },
-                    itemCount: 3,
                   ),
                 ),
-                SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        "Men's Harrington Jacket",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 14),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        "\$148",
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: AppColor.primaryColors,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 33),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      botomsheet(context);
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColor.secondaryColors,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          children: [
-                            Text('Size', style: TextStyle(fontSize: 16)),
-                            Spacer(),
-                            Text(
-                              'S',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(width: 29),
-                            Icon(Icons.keyboard_arrow_down_rounded, size: 34),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      botomsheet_2(context);
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColor.secondaryColors,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          children: [
-                            Text('Color', style: TextStyle(fontSize: 16)),
-                            Spacer(),
-                            CircleAvatar(
-                              radius: 8,
-                              backgroundColor: Color(0xFFB3B68B),
-                            ),
-                            SizedBox(width: 29),
-                            Icon(Icons.keyboard_arrow_down_rounded, size: 34),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {},
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColor.secondaryColors,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          children: [
-                            Text('Quantity', style: TextStyle(fontSize: 16)),
-                            Spacer(),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  son++;
-                                });
-                              },
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: AppColor.primaryColors,
-                                foregroundColor: Colors.white,
-                                child: Icon(Icons.add),
-                              ),
-                            ),
-                            SizedBox(width: 23),
-                            Text(
-                              '$son',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(width: 23),
-                            InkWell(
-                              onTap: () {
-                                setState(() {
-                                  if (son > 1) {
-                                    son--;
-                                  }
-                                });
-                              },
-                              child: CircleAvatar(
-                                radius: 20,
-                                backgroundColor: AppColor.primaryColors,
-                                foregroundColor: Colors.white,
-                                child: Icon(Icons.remove),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 26),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black.withValues(alpha: 0.5),
-                    ),
-                    "Built for life and made to last, this full-zip corduroy jacket is part of our Nike Life collection. The spacious fit gives you plenty of room to layer underneath, while the soft corduroy keeps it casual and timeless.",
-                  ),
-                ),
-                SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Shipping & Returns',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Free standard shipping and free 60-day returns',
-                        style: TextStyle(
-                          color: Colors.black.withValues(alpha: 0.5),
-
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Reviews',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        '4.5 Ratings',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: [
-                      Text(
-                        '213 Reviews',
-                        style: TextStyle(
-                          color: Colors.black.withValues(alpha: 0.5),
-
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 24),
               ],
-            ),
-          ),
-          SliverPadding(
-            padding: EdgeInsetsGeometry.symmetric(horizontal: 24),
-            sliver: SliverList.separated(
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return Container(
-                  height: 128,
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 20,
-                            backgroundColor: AppColor.secondaryColors,
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            'Alex Morgan',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 12,
-                            ),
-                          ),
-                          Spacer(),
-                          Image.asset(AppImages.stars, width: 80, height: 16),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: Colors.black.withValues(alpha: 0.5),
-                        ),
-                        "Gucci transcribes its heritage, creativity, and innovation into a plenitude of collections. From staple items to distinctive\naccessories.",
-                      ),
-                      SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text(
-                            '12days ago',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 12);
-              },
-            ),
-          ),
-        ],
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(
@@ -395,7 +443,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => CartPage()),
+              MaterialPageRoute(builder: (context) => const CartPage()),
             );
           },
           child: Container(
@@ -405,7 +453,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
               color: const Color(0xFF8E6CEF),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
@@ -417,7 +465,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                   ),
                 ),
 
-                const Text(
+                Text(
                   'Add to Bag',
                   style: TextStyle(
                     color: Colors.white,
@@ -437,25 +485,25 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Clear', style: TextStyle(fontSize: 16)),
-                      Text(
-                        'Sort by',
+                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      const Text(
+                        'Size',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -463,11 +511,11 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 15),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -488,7 +536,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -504,7 +552,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -525,7 +573,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -535,12 +583,13 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con2) Icon(Icons.check, color: Colors.white),
+                          if (con2)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -561,7 +610,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -571,12 +620,13 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con3 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con3) Icon(Icons.check, color: Colors.white),
+                          if (con3)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -597,7 +647,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -607,12 +657,13 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con4 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con4) Icon(Icons.check, color: Colors.white),
+                          if (con4)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -633,7 +684,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -643,12 +694,13 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con5 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con5) Icon(Icons.check, color: Colors.white),
+                          if (con5)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 2.8),
+                  const SizedBox(height: 2.8),
                 ],
               ),
             );
@@ -662,24 +714,24 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Clear', style: TextStyle(fontSize: 16)),
-                      Text(
+                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      const Text(
                         'Sort by',
                         style: TextStyle(
                           fontSize: 20,
@@ -688,11 +740,11 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -713,7 +765,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -723,7 +775,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con1_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 8,
                             backgroundColor: Colors.orange,
                           ),
@@ -733,7 +785,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -754,7 +806,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -764,16 +816,17 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con2_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 8,
                             backgroundColor: Colors.black,
                           ),
-                          if (con2_2) Icon(Icons.check, color: Colors.white),
+                          if (con2_2)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -794,7 +847,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -804,14 +857,18 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con3_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          CircleAvatar(radius: 8, backgroundColor: Colors.red),
+                          const CircleAvatar(
+                            radius: 8,
+                            backgroundColor: Colors.red,
+                          ),
 
-                          if (con3_2) Icon(Icons.check, color: Colors.white),
+                          if (con3_2)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -832,7 +889,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -842,16 +899,17 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con4_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 8,
                             backgroundColor: Colors.yellow,
                           ),
-                          if (con4_2) Icon(Icons.check, color: Colors.white),
+                          if (con4_2)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -872,7 +930,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -882,14 +940,18 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                               color: con5_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          CircleAvatar(radius: 8, backgroundColor: Colors.red),
+                          const CircleAvatar(
+                            radius: 8,
+                            backgroundColor: Colors.red,
+                          ),
 
-                          if (con5_2) Icon(Icons.check, color: Colors.white),
+                          if (con5_2)
+                            const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 2.8),
+                  const SizedBox(height: 2.8),
                 ],
               ),
             );

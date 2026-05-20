@@ -4,7 +4,7 @@ import 'package:scot/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:scot/features/auth/presentation/cubit/auth_state.dart';
 import 'package:scot/features/auth/presentation/model/auth_model.dart';
 import 'package:scot/features/auth/presentation/page/forgot_page.dart';
-import 'package:scot/features/auth/presentation/page/sign_page.dart';
+import 'package:scot/features/auth/presentation/page/xz_page.dart';
 import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
 import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
 
@@ -80,7 +80,7 @@ class _CreatePageState extends State<CreatePage> {
                     );
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const SignPage()),
+                      MaterialPageRoute(builder: (context) => const XzPage()),
                     );
                   }
                   if (state is AuthError) {

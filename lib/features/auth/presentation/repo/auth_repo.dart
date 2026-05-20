@@ -82,7 +82,6 @@ class AuthRepo {
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
-          "Authorization": "Bearer $token",
         },
         body: jsonEncode(request.toJson()),
       );

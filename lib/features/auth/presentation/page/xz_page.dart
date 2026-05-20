@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
-import 'package:scot/features/auth/presentation/model/auth_model.dart'; // import qo'shildi
+import 'package:scot/features/auth/presentation/model/auth_model.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class XzPage extends StatefulWidget {
-  const XzPage({super.key});
+  const XzPage({super.key, });
 
   @override
   State<XzPage> createState() => _XzPageState();
@@ -153,7 +153,7 @@ class _XzPageState extends State<XzPage> {
                   try {
                     await _authRepo.completeProfile(
                       request: agePrifile(gender: gender, age: age.text),
-                      userId: 0,
+                      userId: 1,
                     );
 
                     if (context.mounted) {
