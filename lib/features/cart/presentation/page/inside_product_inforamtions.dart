@@ -28,12 +28,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
   bool con5_2 = false;
   int son = 1;
   @override
-  void initState() {
-    // TODO: implement initState
-    context.read<ProductCubit>().getProducts();
 
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

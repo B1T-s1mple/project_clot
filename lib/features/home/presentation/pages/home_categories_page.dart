@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart'; 
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/features/home/presentation/pages/home_products_page.dart';
+import 'package:scot/features/home/cubit/category_cubit_cubit.dart'; 
+import 'package:scot/features/home/cubit/category_cubit_state.dart'; 
 
 class HomeCategoriesPage extends StatefulWidget {
   const HomeCategoriesPage({super.key});
@@ -11,11 +14,16 @@ class HomeCategoriesPage extends StatefulWidget {
 
 class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
   @override
+  void initState() {
+    super.initState();
+    context.read<CategoryCubitCubit>().getProducts();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.white,
-
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         titleSpacing: 24,
@@ -26,14 +34,17 @@ class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(
+            Icons.keyboard_arrow_left_rounded,
+            color: Colors.black,
+          ),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            Row(
+            const Row(
               children: [
                 Text(
                   'Shop by Categories',
@@ -41,37 +52,67 @@ class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
                 ),
               ],
             ),
-            SizedBox(height: 14),
+            const SizedBox(height: 14),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    borderRadius: BorderRadius.circular(8),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeProductsPage(),
-                        ),
+              child: BlocBuilder<CategoryCubitCubit, CategoryCubitState>(
+                builder: (context, state) {
+                  if (state is CategoryLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is CategoryError) {
+                    return Center(child: Text(state.message));
+                  } else if (state is CategoryLoaded) {
+                    final categories = state.categorise;
+
+                    if (categories.isEmpty) {
+                      return const Center(
+                        child: Text("Kategoriya y'O"),
                       );
-                    },
-                    child: Container(
-                      width: 342,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        children: [SizedBox(width: 20), Text('Hodies')],
-                      ),
-                    ),
-                  );
+                    }
+
+                    return ListView.separated(
+                      itemCount: categories.length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 8);
+                      },
+                      itemBuilder: (context, index) {
+                        final category = categories[index];
+
+                        return InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeProductsPage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 342,
+                            height: 64,
+                            decoration: BoxDecoration(
+                              color: AppColor.secondaryColors,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              spacing: 20,
+                              children: [
+                                const SizedBox(width: 20),
+                                Image(
+                                  image: NetworkImage(category.images),
+                                  width: 40,
+                                  height: 40,
+                                ),
+                                Text(category.name),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return const SizedBox();
                 },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 8);
-                },
-                itemCount: 5,
               ),
             ),
           ],

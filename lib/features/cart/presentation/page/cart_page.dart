@@ -14,7 +14,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actionsPadding: EdgeInsets.symmetric(horizontal: 24),
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 24),
 
         leading: IconButton(
           style: IconButton.styleFrom(
@@ -23,12 +23,12 @@ class _CartPageState extends State<CartPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Cart',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -42,7 +42,7 @@ class _CartPageState extends State<CartPage> {
               children: [
                 TextButton(
                   onPressed: () {},
-                  child: Text(
+                  child: const Text(
                     'Remove All',
                     style: TextStyle(color: Colors.black, fontSize: 16),
                   ),
@@ -63,12 +63,12 @@ class _CartPageState extends State<CartPage> {
                       child: Row(
                         children: [
                           Container(width: 64, height: 64, color: Colors.grey),
-                          SizedBox(width: 12),
+                          const SizedBox(width: 12),
                           Column(
                             mainAxisAlignment: .center,
                             crossAxisAlignment: .start,
                             children: [
-                              Row(
+                              const Row(
                                 children: [
                                   Text("Men's Harrington Jacket"),
                                   SizedBox(width: 178),
@@ -81,7 +81,7 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Row(
                                 children: [
                                   Row(
@@ -94,10 +94,10 @@ class _CartPageState extends State<CartPage> {
                                           ),
                                         ),
                                       ),
-                                      Text(' - M'),
+                                      const Text(' - M'),
                                     ],
                                   ),
-                                  SizedBox(width: 16),
+                                  const SizedBox(width: 16),
                                   Row(
                                     children: [
                                       Text(
@@ -108,15 +108,15 @@ class _CartPageState extends State<CartPage> {
                                           ),
                                         ),
                                       ),
-                                      Text(' - Lemon'),
+                                      const Text(' - Lemon'),
                                     ],
                                   ),
-                                  SizedBox(width: 149),
+                                  const SizedBox(width: 149),
                                   Row(
                                     children: [
                                       InkWell(
                                         onTap: () {},
-                                        child: CircleAvatar(
+                                        child: const CircleAvatar(
                                           radius: 12,
                                           backgroundColor:
                                               AppColor.primaryColors,
@@ -124,10 +124,10 @@ class _CartPageState extends State<CartPage> {
                                           child: Icon(Icons.add, size: 15),
                                         ),
                                       ),
-                                      SizedBox(width: 8),
+                                      const SizedBox(width: 8),
                                       InkWell(
                                         onTap: () {},
-                                        child: CircleAvatar(
+                                        child: const CircleAvatar(
                                           radius: 12,
                                           backgroundColor:
                                               AppColor.primaryColors,
@@ -147,7 +147,7 @@ class _CartPageState extends State<CartPage> {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return SizedBox(height: 10);
+                  return const SizedBox(height: 10);
                 },
                 itemCount: 2,
               ),
@@ -163,7 +163,7 @@ class _CartPageState extends State<CartPage> {
                     color: Colors.black.withValues(alpha: 0.5),
                   ),
                 ),
-                Text(
+                const Text(
                   '\$200',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
@@ -179,7 +179,7 @@ class _CartPageState extends State<CartPage> {
                     color: Colors.black.withValues(alpha: 0.5),
                   ),
                 ),
-                Text(
+                const Text(
                   '\$8.00',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
@@ -196,7 +196,7 @@ class _CartPageState extends State<CartPage> {
                     color: Colors.black.withValues(alpha: 0.5),
                   ),
                 ),
-                Text(
+                const Text(
                   '\$0.00',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                 ),
@@ -213,13 +213,13 @@ class _CartPageState extends State<CartPage> {
                     color: Colors.black.withValues(alpha: 0.5),
                   ),
                 ),
-                Text(
+                const Text(
                   '\$208',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            const SizedBox(height: 32),
             InkWell(
               borderRadius: BorderRadius.circular(100),
               onTap: () {},
@@ -233,11 +233,11 @@ class _CartPageState extends State<CartPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.discount_outlined,
                         color: Colors.lightGreenAccent,
                       ),
-                      SizedBox(width: 13),
+                      const SizedBox(width: 13),
                       Text(
                         'Enter Coupon Code',
                         style: TextStyle(
@@ -245,8 +245,8 @@ class _CartPageState extends State<CartPage> {
                           color: Colors.black.withValues(alpha: 0.5),
                         ),
                       ),
-                      Spacer(),
-                      CircleAvatar(
+                      const Spacer(),
+                      const CircleAvatar(
                         radius: 20,
                         backgroundColor: AppColor.primaryColors,
                         foregroundColor: Colors.white,
@@ -257,7 +257,7 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -273,7 +273,7 @@ class _CartPageState extends State<CartPage> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ChekcoutPage()),
+              MaterialPageRoute(builder: (context) => const ChekcoutPage()),
             );
           },
           child: Container(
@@ -283,7 +283,7 @@ class _CartPageState extends State<CartPage> {
               color: const Color(0xFF8E6CEF),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: Row(
+            child: const Row(
               mainAxisAlignment: .center,
               children: [
                 Text(

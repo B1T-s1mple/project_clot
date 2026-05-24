@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/features/auth/presentation/model/auth_model.dart';
+import 'package:scot/features/auth/presentation/page/sign_page.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class XzPage extends StatefulWidget {
-  const XzPage({super.key, });
+  final int userId;
+  const XzPage({super.key, required this.userId});
 
   @override
   State<XzPage> createState() => _XzPageState();
@@ -152,14 +155,14 @@ class _XzPageState extends State<XzPage> {
 
                   try {
                     await _authRepo.completeProfile(
-                      request: agePrifile(gender: gender, age: age.text),
-                      userId: 1,
+                      request: AgePrifile(gender: gender, age: age.text),
+                      userId: widget.userId,
                     );
 
                     if (context.mounted) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => Bar()),
+                        MaterialPageRoute(builder: (context) => SignPage()),
                       );
                     }
                   } catch (e) {

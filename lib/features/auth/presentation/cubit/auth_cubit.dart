@@ -11,8 +11,8 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> registerUser(RegisterRequest request) async {
     emit(AuthLoading());
     try {
-      await authRepo.register(request);
-      emit(AuthSuccess("Muvaffaqiyatli ro'yxatdan o'tdingiz!"));
+      final user = await authRepo.register(request);
+      emit(Signup(user.id!));
     } catch (e) {
       emit(AuthError(e.toString()));
     }
@@ -30,7 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> completeUserProfile({
     required int userId,
-    required agePrifile request,
+    required AgePrifile request,
   }) async {
     emit(AuthLoading());
     try {

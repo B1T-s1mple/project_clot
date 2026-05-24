@@ -36,10 +36,10 @@ class _SentEmailAdrresState extends State<SentEmailAdrres> {
               InkWell(
                 borderRadius: BorderRadius.circular(40),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const XzPage()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const XzPage()),
+                  // );
                 },
                 child: Container(
                   width: 159,

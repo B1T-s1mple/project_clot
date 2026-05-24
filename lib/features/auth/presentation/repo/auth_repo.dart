@@ -8,7 +8,7 @@ class AuthRepo {
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
-  Future<void> register(RegisterRequest request) async {
+  Future<UserModel> register(RegisterRequest request) async {
     try {
       final response = await http.post(
         Uri.parse("$baseUrl/auth/signup"),
@@ -22,11 +22,7 @@ class AuthRepo {
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        final token = data['token'] ?? data['access_token'];
-        if (token != null) {
-          await _storage.write(key: 'auth_token', value: token);
-        }
-        return;
+        return UserModel.fromJson(data);
       } else {
         throw data['message'] ?? data.toString();
       }
@@ -68,15 +64,9 @@ class AuthRepo {
 
   Future<void> completeProfile({
     required int userId,
-    required agePrifile request,
+    required AgePrifile request,
   }) async {
     try {
-      final token = await _storage.read(key: 'auth_token');
-
-      if (token == null) {
-        throw "Token topilmadi. Iltimos, qaytadan tizimga kiring.";
-      }
-
       final response = await http.patch(
         Uri.parse("$baseUrl/auth/complete-profile/$userId"),
         headers: {

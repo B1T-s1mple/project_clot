@@ -71,16 +71,12 @@ class _CreatePageState extends State<CreatePage> {
               const SizedBox(height: 40),
               BlocConsumer<AuthCubit, AuthState>(
                 listener: (context, state) {
-                  if (state is AuthSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
+                  if (state is Signup) {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const XzPage()),
+                      MaterialPageRoute(
+                        builder: (context) => XzPage(userId: state.userId),
+                      ),
                     );
                   }
                   if (state is AuthError) {
@@ -133,7 +129,9 @@ class _CreatePageState extends State<CreatePage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const ForgotPage()),
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPage(),
+                        ),
                       );
                     },
                     child: const Text(

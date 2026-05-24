@@ -9,6 +9,11 @@ class AuthSuccess extends AuthState {
   AuthSuccess(this.message);
 }
 
+class Signup extends AuthState {
+  final int userId;
+  Signup(this.userId);
+}
+
 class AuthError extends AuthState {
   final String error;
   AuthError(this.error);

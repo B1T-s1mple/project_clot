@@ -19,10 +19,10 @@ class _BarState extends State<Bar> {
   int _currentIndex = 0;
 
   final List<Widget> pages = [
-    HomeFirstPage(),
-    NotificationSecon(),
-    OrdersSeconHaveInfo(),
-    FirsPageSettings(),
+    const HomeFirstPage(),
+    const NotificationSecon(),
+    const OrdersSeconHaveInfo(),
+    const FirsPageSettings(),
   ];
 
   @override

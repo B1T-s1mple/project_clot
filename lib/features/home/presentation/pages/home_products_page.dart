@@ -25,7 +25,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
         ),
       ),
       body: Padding(
@@ -33,7 +33,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
         child: Column(
           mainAxisSize: .max,
           children: [
-            Row(
+            const Row(
               children: [
                 Text(
                   'Hoodies (240)',
@@ -41,10 +41,10 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                 ),
               ],
             ),
-            SizedBox(height: 23),
+            const SizedBox(height: 23),
             Expanded(
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 30,
@@ -67,7 +67,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade400,
 
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(8),
                                   topRight: Radius.circular(8),
                                 ),
@@ -79,7 +79,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                                     children: [
                                       IconButton(
                                         onPressed: () {},
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.favorite_border,
                                           color: Colors.black,
                                         ),
@@ -89,7 +89,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                                 ],
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 SizedBox(width: 4),
                                 Text(
@@ -98,7 +98,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                                 ),
                               ],
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 SizedBox(width: 4),
                                 Text(

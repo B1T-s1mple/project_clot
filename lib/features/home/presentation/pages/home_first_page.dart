@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
+import 'package:scot/features/cart/cubit/product_cubit_state.dart';
+import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/cart/presentation/page/inside_product_inforamtions.dart';
 import 'package:scot/features/filter/presentation/pages/filter_page.dart';
 import 'package:scot/features/home/presentation/pages/home_categories_page.dart';
@@ -12,6 +16,13 @@ class HomeFirstPage extends StatefulWidget {
 }
 
 class _HomeFirstPageState extends State<HomeFirstPage> {
+  void initState() {
+    // TODO: implement initState
+    context.read<ProductCubit>().getProducts();
+
+    super.initState();
+  }
+
   String? yosh;
   bool favorite = false;
   Set<int> favoriteIndexes = {};
@@ -26,18 +37,18 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
         title: Row(
           mainAxisAlignment: .spaceBetween,
           children: [
-            CircleAvatar(radius: 20, backgroundColor: Colors.amberAccent),
+            const CircleAvatar(radius: 20, backgroundColor: Colors.amberAccent),
             DropdownButton<String>(
               dropdownColor: AppColor.secondaryColors,
               focusColor: AppColor.secondaryColors,
               borderRadius: BorderRadius.circular(20),
               underline: const SizedBox(),
-              icon: Icon(Icons.keyboard_arrow_down_rounded),
+              icon: const Icon(Icons.keyboard_arrow_down_rounded),
               value: yosh,
-              hint: Text('gender'),
+              hint: const Text('gender'),
               items: [
-                DropdownMenuItem(value: 'Men', child: Text('Men')),
-                DropdownMenuItem(value: 'Woman', child: Text('Woman')),
+                const DropdownMenuItem(value: 'Men', child: Text('Men')),
+                const DropdownMenuItem(value: 'Woman', child: Text('Woman')),
               ],
               onChanged: (value) {
                 setState(() {
@@ -45,7 +56,7 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                 });
               },
             ),
-            CircleAvatar(
+            const CircleAvatar(
               radius: 20,
               backgroundColor: Colors.deepPurple,
               child: Icon(Icons.mark_email_read, color: Colors.white),
@@ -53,178 +64,226 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
           ],
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              InkWell(
-                borderRadius: BorderRadius.circular(100),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FilterPage()),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    color: AppColor.secondaryColors,
-                  ),
-                  child: Row(
-                    spacing: 15,
-                    children: [
-                      SizedBox(width: 5),
-                      Icon(Icons.search),
-                      Text('Search'),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 24.5),
-              Row(
-                mainAxisAlignment: .spaceBetween,
-                children: [
-                  Text(
-                    'Categories',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeCategoriesPage(),
+      body: BlocBuilder<ProductCubit, ProductState>(
+        builder: (context, state) {
+          if (state is ProductsLoading) {
+            return const CircularProgressIndicator.adaptive();
+          } else if (state is ProductError) {
+            return Center(child: Text(state.message));
+          } else if (state is ProductsLoaded) {
+            final ProductModel product = state.products[1];
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    InkWell(
+                      borderRadius: BorderRadius.circular(100),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FilterPage(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: AppColor.secondaryColors,
                         ),
-                      );
-                    },
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
+                        child: const Row(
+                          spacing: 15,
+                          children: [
+                            SizedBox(width: 5),
+                            Icon(Icons.search),
+                            Text('Search'),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
-              SizedBox(
-                height: 83,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 6,
-                  itemBuilder: (context, index) {
-                    return Column(
+                    const SizedBox(height: 24.5),
+                    Row(
+                      mainAxisAlignment: .spaceBetween,
                       children: [
-                        CircleAvatar(radius: 28, backgroundColor: Colors.grey),
-                        SizedBox(height: 7),
-                        Text(
-                          'Hoodies',
+                        const Text(
+                          'Categories',
                           style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(width: 22.5);
-                  },
-                ),
-              ),
-              SizedBox(height: 16),
-
-              Row(
-                mainAxisAlignment: .spaceBetween,
-                children: [
-                  Text(
-                    'Top Selling',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.5),
-
-              SizedBox(
-                height: 281,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
+                        TextButton(
+                          onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    InsideProductInforamtions(),
+                                    const HomeCategoriesPage(),
                               ),
                             );
                           },
-                          child: Container(
-                            width: 159,
-                            height: 281,
-                            decoration: BoxDecoration(
-                              color: AppColor.secondaryColors,
-                              borderRadius: BorderRadius.circular(8),
+                          child: const Text(
+                            'See All',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
                             ),
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: 159,
-                                  height: 220,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      height: 83,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 6,
+                        itemBuilder: (context, index) {
+                          return const Column(
+                            children: [
+                              CircleAvatar(
+                                radius: 28,
+                                backgroundColor: Colors.grey,
+                              ),
+                              SizedBox(height: 7),
+                              Text(
+                                'Hoodies',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const SizedBox(width: 22.5);
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 16),
 
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(8),
-                                      topRight: Radius.circular(8),
+                    Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        const Text(
+                          'Top Selling',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'See All',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16.5),
+
+                    SizedBox(
+                      height: 281,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const InsideProductInforamtions(),
                                     ),
+                                  );
+                                },
+                                child: Container(
+                                  width: 159,
+                                  height: 281,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.secondaryColors,
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Column(
                                     children: [
-                                      Row(
-                                        mainAxisAlignment: .end,
+                                      Container(
+                                        width: 159,
+                                        height: 220,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade400,
+                                            image: DecorationImage(image: NetworkImage(product.images[index]),fit: BoxFit.cover),
+                                          borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(8),
+                                            topRight: Radius.circular(8),
+                                          ),
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: .end,
+                                              children: [
+                                                IconButton(
+                                                  onPressed: () {
+                                                    setState(() {
+                                                      if (favoriteIndexes
+                                                          .contains(index)) {
+                                                        favoriteIndexes.remove(
+                                                          index,
+                                                        );
+                                                      } else {
+                                                        favoriteIndexes.add(
+                                                          index,
+                                                        );
+                                                      }
+                                                    });
+                                                  },
+                                                  icon: Icon(
+                                                    favoriteIndexes.contains(
+                                                          index,
+                                                        )
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    color:
+                                                        favoriteIndexes
+                                                            .contains(index)
+                                                        ? Colors.red
+                                                        : Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                       Row(
                                         children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                if (favoriteIndexes.contains(
-                                                  index,
-                                                )) {
-                                                  favoriteIndexes.remove(index);
-                                                } else {
-                                                  favoriteIndexes.add(index);
-                                                }
-                                              });
-                                            },
-                                            icon: Icon(
-                                              favoriteIndexes.contains(index)
-                                                  ? Icons.favorite
-                                                  : Icons.favorite_border,
-                                              color:
-                                                  favoriteIndexes.contains(
-                                                    index,
-                                                  )
-                                                  ? Colors.red
-                                                  : Colors.black,
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            product.name[index],
+                                            style: const TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                       Row(
+                                        children: [
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            product.price.toString()[index],
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
                                         ],
@@ -232,103 +291,103 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: [
-                                    SizedBox(width: 4),
-                                    Text(
-                                      "Men's Harrington Jacket",
-                                      style: TextStyle(fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    SizedBox(width: 4),
-                                    Text(
-                                      "\$148.00",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                              ),
+                            ],
+                          );
+                        },
+
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 12);
+                        },
+                        itemCount: product.images.length,
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: .spaceBetween,
+                      children: [
+                        const Text(
+                          'New In',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColor.primaryColors,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'See All',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
                       ],
-                    );
-                  },
-
-                  separatorBuilder: (context, index) {
-                    return SizedBox(width: 12);
-                  },
-                  itemCount: 3,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: .spaceBetween,
-                children: [
-                  Text(
-                    'New In',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: AppColor.primaryColors,
-                      fontWeight: FontWeight.w700,
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16.5),
-              SizedBox(
-                height: 281,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Container(
-                          width: 159,
-                          height: 281,
-                          decoration: BoxDecoration(
-                            color: AppColor.secondaryColors,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Column(
+                    const SizedBox(height: 16.5),
+                    SizedBox(
+                      height: 281,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Column(
                             children: [
                               Container(
                                 width: 159,
-                                height: 220,
+                                height: 281,
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.shade400,
-
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    topRight: Radius.circular(8),
-                                  ),
+                                  color: AppColor.secondaryColors,
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 child: Column(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: .end,
+                                    Container(
+                                      width: 159,
+                                      height: 220,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade400,
+
+                                        borderRadius: const BorderRadius.only(
+                                          topLeft: Radius.circular(8),
+                                          topRight: Radius.circular(8),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: .end,
+                                            children: [
+                                              IconButton(
+                                                onPressed: () {},
+                                                icon: const Icon(
+                                                  Icons.favorite_border,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const Row(
                                       children: [
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.black,
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "Men's Harrington Jacket",
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                    const Row(
+                                      children: [
+                                        SizedBox(width: 4),
+                                        Text(
+                                          "\$148.00",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       ],
@@ -336,42 +395,22 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                   ],
                                 ),
                               ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "Men's Harrington Jacket",
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "\$148.00",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return SizedBox(width: 12);
-                  },
-                  itemCount: 3,
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 12);
+                        },
+                        itemCount: 3,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }

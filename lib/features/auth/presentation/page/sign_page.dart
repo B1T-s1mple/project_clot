@@ -9,6 +9,7 @@ import 'package:scot/features/auth/presentation/page/create_page.dart';
 import 'package:scot/features/auth/presentation/page/xz_page.dart';
 import 'package:scot/features/auth/presentation/widgets/primary_button.dart';
 import 'package:scot/features/auth/presentation/widgets/text_feld_primary.dart';
+import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class SignPage extends StatefulWidget {
   const SignPage({super.key});
@@ -62,7 +63,7 @@ class _SignPageState extends State<SignPage> {
 
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => const XzPage()),
+                      MaterialPageRoute(builder: (context) =>  Bar()),
                     );
                   }
                   if (state is AuthError) {
