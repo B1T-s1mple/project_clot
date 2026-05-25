@@ -39,8 +39,8 @@ class _ThreeState extends State<Three> {
                       color: AppColor.primaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
                         children: [
                           Icon(Icons.filter_alt_outlined, color: Colors.white),
@@ -61,8 +61,8 @@ class _ThreeState extends State<Three> {
                       color: AppColor.secondaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
                         children: [Text('On Sale', style: TextStyle())],
                       ),
@@ -80,8 +80,8 @@ class _ThreeState extends State<Three> {
                       color: AppColor.primaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
                         children: [
                           Text('Price', style: TextStyle(color: Colors.white)),
@@ -101,8 +101,8 @@ class _ThreeState extends State<Three> {
                       color: AppColor.secondaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
                         children: [
                           Text('Sort  by', style: TextStyle()),
@@ -124,8 +124,8 @@ class _ThreeState extends State<Three> {
                       color: AppColor.primaryColors,
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       child: Row(
                         children: [
                           Text('Men', style: TextStyle(color: Colors.white)),
@@ -140,13 +140,13 @@ class _ThreeState extends State<Three> {
                 ),
               ],
             ),
-            SizedBox(height: 16),
-            Row(children: [Text('53 Results Found')]),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            const Row(children: [Text('53 Results Found')]),
+            const SizedBox(height: 16),
 
             Expanded(
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 30,
                   mainAxisSpacing: 30,
@@ -169,7 +169,7 @@ class _ThreeState extends State<Three> {
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade400,
 
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(8),
                                   topRight: Radius.circular(8),
                                 ),
@@ -181,7 +181,7 @@ class _ThreeState extends State<Three> {
                                     children: [
                                       IconButton(
                                         onPressed: () {},
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.favorite_border,
                                           color: Colors.black,
                                         ),
@@ -191,7 +191,7 @@ class _ThreeState extends State<Three> {
                                 ],
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 SizedBox(width: 4),
                                 Text(
@@ -200,7 +200,7 @@ class _ThreeState extends State<Three> {
                                 ),
                               ],
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 SizedBox(width: 4),
                                 Text(
@@ -230,24 +230,24 @@ class _ThreeState extends State<Three> {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Clear', style: TextStyle(fontSize: 16)),
-                      Text(
+                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      const Text(
                         'Sort by',
                         style: TextStyle(
                           fontSize: 20,
@@ -256,11 +256,11 @@ class _ThreeState extends State<Three> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -277,7 +277,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -293,7 +293,7 @@ class _ThreeState extends State<Three> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -310,7 +310,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -320,12 +320,12 @@ class _ThreeState extends State<Three> {
                               color: con2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con2) Icon(Icons.check, color: Colors.white),
+                          if (con2) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -342,7 +342,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -352,12 +352,12 @@ class _ThreeState extends State<Three> {
                               color: con3 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con3) Icon(Icons.check, color: Colors.white),
+                          if (con3) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -374,7 +374,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -384,12 +384,12 @@ class _ThreeState extends State<Three> {
                               color: con4 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con4) Icon(Icons.check, color: Colors.white),
+                          if (con4) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             );
@@ -403,24 +403,24 @@ class _ThreeState extends State<Three> {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Clear', style: TextStyle(fontSize: 16)),
-                      Text(
+                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      const Text(
                         'Gender',
                         style: TextStyle(
                           fontSize: 20,
@@ -429,11 +429,11 @@ class _ThreeState extends State<Three> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -452,7 +452,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -462,12 +462,12 @@ class _ThreeState extends State<Three> {
                               color: con1_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con1_2) Icon(Icons.check, color: Colors.white),
+                          if (con1_2) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -486,7 +486,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -496,12 +496,12 @@ class _ThreeState extends State<Three> {
                               color: con2_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con2_2) Icon(Icons.check, color: Colors.white),
+                          if (con2_2) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -520,7 +520,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -530,13 +530,13 @@ class _ThreeState extends State<Three> {
                               color: con3_2 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con3_2) Icon(Icons.check, color: Colors.white),
+                          if (con3_2) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             );
@@ -550,24 +550,24 @@ class _ThreeState extends State<Three> {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Clear', style: TextStyle(fontSize: 16)),
-                      Text(
+                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      const Text(
                         'Deals',
                         style: TextStyle(
                           fontSize: 20,
@@ -576,11 +576,11 @@ class _ThreeState extends State<Three> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -598,7 +598,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -608,12 +608,12 @@ class _ThreeState extends State<Three> {
                               color: con1_3 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con1_3) Icon(Icons.check, color: Colors.white),
+                          if (con1_3) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -631,7 +631,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -641,13 +641,13 @@ class _ThreeState extends State<Three> {
                               color: con2_3 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con2_3) Icon(Icons.check, color: Colors.white),
+                          if (con2_3) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             );
@@ -661,24 +661,24 @@ class _ThreeState extends State<Three> {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Clear', style: TextStyle(fontSize: 16)),
-                      Text(
+                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      const Text(
                         'Price',
                         style: TextStyle(
                           fontSize: 20,
@@ -687,11 +687,11 @@ class _ThreeState extends State<Three> {
                       ),
                       IconButton(
                         onPressed: () => Navigator.pop(context),
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -709,7 +709,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -719,12 +719,12 @@ class _ThreeState extends State<Three> {
                               color: con1_4 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con1_4) Icon(Icons.check, color: Colors.white),
+                          if (con1_4) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
 
                   InkWell(
                     borderRadius: BorderRadius.circular(100),
@@ -742,7 +742,7 @@ class _ThreeState extends State<Three> {
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -752,13 +752,13 @@ class _ThreeState extends State<Three> {
                               color: con2_4 ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con2_4) Icon(Icons.check, color: Colors.white),
+                          if (con2_4) const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
                   ),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             );

@@ -6,6 +6,8 @@ import 'package:scot/features/cart/cubit/product_cubit_state.dart';
 import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/cart/presentation/page/inside_product_inforamtions.dart';
 import 'package:scot/features/filter/presentation/pages/filter_page.dart';
+import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
+import 'package:scot/features/home/cubit/category_cubit_state.dart';
 import 'package:scot/features/home/presentation/pages/home_categories_page.dart';
 
 class HomeFirstPage extends StatefulWidget {
@@ -18,12 +20,13 @@ class HomeFirstPage extends StatefulWidget {
 class _HomeFirstPageState extends State<HomeFirstPage> {
   void initState() {
     // TODO: implement initState
-    context.read<ProductCubit>().getProducts();
+    context.read<ProductCubit>().getProducts(gender: '');
+    context.read<CategoryCubitCubit>().getProducts();
 
     super.initState();
   }
 
-  String? yosh;
+  String? gender;
   bool favorite = false;
   Set<int> favoriteIndexes = {};
   @override
@@ -44,16 +47,18 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
               borderRadius: BorderRadius.circular(20),
               underline: const SizedBox(),
               icon: const Icon(Icons.keyboard_arrow_down_rounded),
-              value: yosh,
+              value: gender,
               hint: const Text('gender'),
               items: [
                 const DropdownMenuItem(value: 'Men', child: Text('Men')),
-                const DropdownMenuItem(value: 'Woman', child: Text('Woman')),
+                const DropdownMenuItem(value: 'Women', child: Text('Women')),
               ],
               onChanged: (value) {
                 setState(() {
-                  yosh = value;
+                  if (value == null || value == gender) return;
+                  gender = value;
                 });
+                context.read<ProductCubit>().getProducts(gender: value);
               },
             ),
             const CircleAvatar(
@@ -64,95 +69,104 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
           ],
         ),
       ),
-      body: BlocBuilder<ProductCubit, ProductState>(
-        builder: (context, state) {
-          if (state is ProductsLoading) {
-            return const CircularProgressIndicator.adaptive();
-          } else if (state is ProductError) {
-            return Center(child: Text(state.message));
-          } else if (state is ProductsLoaded) {
-            final ProductModel product = state.products[1];
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  children: [
-                    InkWell(
-                      borderRadius: BorderRadius.circular(100),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const FilterPage(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100),
-                          color: AppColor.secondaryColors,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(100),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const FilterPage()),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: AppColor.secondaryColors,
+                  ),
+                  child: const Row(
+                    spacing: 15,
+                    children: [
+                      SizedBox(width: 5),
+                      Icon(Icons.search),
+                      Text('Search'),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24.5),
+              Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  const Text(
+                    'Categories',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeCategoriesPage(),
                         ),
-                        child: const Row(
-                          spacing: 15,
-                          children: [
-                            SizedBox(width: 5),
-                            Icon(Icons.search),
-                            Text('Search'),
-                          ],
-                        ),
+                      );
+                    },
+                    child: const Text(
+                      'See All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(height: 24.5),
-                    Row(
-                      mainAxisAlignment: .spaceBetween,
-                      children: [
-                        const Text(
-                          'Categories',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const HomeCategoriesPage(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'See All',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      height: 83,
-                      child: ListView.separated(
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                height: 83,
+                child: BlocBuilder<CategoryCubitCubit, CategoryCubitState>(
+                  builder: (context, state) {
+                    if (state is CategoryLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is CategoryError) {
+                      return Center(child: Text(state.message));
+                    } else if (state is CategoryLoaded) {
+                      final categories = state.categorise;
+
+                      if (categories.isEmpty) {
+                        return const Center(child: Text("Kategoriya y'O"));
+                      }
+                      return ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemCount: 6,
+                        itemCount: categories.length,
                         itemBuilder: (context, index) {
-                          return const Column(
+                          final category = categories[index];
+
+                          return Column(
                             children: [
-                              CircleAvatar(
-                                radius: 28,
-                                backgroundColor: Colors.grey,
+                              InkWell(
+                                onTap: () {
+                                  context.read<ProductCubit>().getProducts(categoryId: index+1,gender: gender);
+                                },
+                                borderRadius: BorderRadius.circular(1000),
+                                child: CircleAvatar(
+                                  radius: 28,
+                                  backgroundImage: NetworkImage(
+                                    category.images,
+                                  ),
+                                  backgroundColor: Colors.grey,
+                                ),
                               ),
-                              SizedBox(height: 7),
+                              const SizedBox(height: 7),
                               Text(
-                                'Hoodies',
-                                style: TextStyle(
+                                category.name,
+                                style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -163,40 +177,51 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox(width: 22.5);
                         },
+                      );
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  const Text(
+                    'Top Selling',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'See All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.5),
 
-                    Row(
-                      mainAxisAlignment: .spaceBetween,
-                      children: [
-                        const Text(
-                          'Top Selling',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'See All',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16.5),
-
-                    SizedBox(
-                      height: 281,
-                      child: ListView.separated(
+              SizedBox(
+                height: 281,
+                child: BlocBuilder<ProductCubit, ProductState>(
+                  builder: (context, state) {
+                    if (state is ProductsLoading) {
+                      return const CircularProgressIndicator.adaptive();
+                    } else if (state is ProductError) {
+                      return Center(child: Text(state.message));
+                    } else if (state is ProductsLoaded) {
+                      return ListView.separated(
+                        itemCount: state.products.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
+                          final ProductModel product = state.products[index];
+
                           return Column(
                             children: [
                               InkWell(
@@ -210,7 +235,7 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                   );
                                 },
                                 child: Container(
-                                  width: 159,
+                                  width: 199,
                                   height: 281,
                                   decoration: BoxDecoration(
                                     color: AppColor.secondaryColors,
@@ -219,11 +244,18 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                   child: Column(
                                     children: [
                                       Container(
-                                        width: 159,
+                                        width: 199,
                                         height: 220,
                                         decoration: BoxDecoration(
                                           color: Colors.grey.shade400,
-                                            image: DecorationImage(image: NetworkImage(product.images[index]),fit: BoxFit.cover),
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              product.images.isNotEmpty
+                                                  ? product.images[0]
+                                                  : 'https://placeholder.com/image.png',
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
                                           borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(8),
                                             topRight: Radius.circular(8),
@@ -267,20 +299,22 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                           ],
                                         ),
                                       ),
-                                       Row(
+                                      Row(
                                         children: [
                                           const SizedBox(width: 4),
                                           Text(
-                                            product.name[index],
-                                            style: const TextStyle(fontSize: 12),
+                                            product.name,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                            ),
                                           ),
                                         ],
                                       ),
-                                       Row(
+                                      Row(
                                         children: [
                                           const SizedBox(width: 4),
                                           Text(
-                                            product.price.toString()[index],
+                                            '\$${product.price.toString()}',
                                             style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w700,
@@ -299,95 +333,74 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                         separatorBuilder: (context, index) {
                           return const SizedBox(width: 12);
                         },
-                        itemCount: product.images.length,
+                      );
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: .spaceBetween,
+                children: [
+                  const Text(
+                    'New In',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColor.primaryColors,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'See All',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: .spaceBetween,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16.5),
+              SizedBox(
+                height: 281,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Column(
                       children: [
-                        const Text(
-                          'New In',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: AppColor.primaryColors,
-                            fontWeight: FontWeight.w700,
+                        Container(
+                          width: 159,
+                          height: 281,
+                          decoration: BoxDecoration(
+                            color: AppColor.secondaryColors,
+                            borderRadius: BorderRadius.circular(8),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'See All',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16.5),
-                    SizedBox(
-                      height: 281,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return Column(
+                          child: Column(
                             children: [
                               Container(
                                 width: 159,
-                                height: 281,
+                                height: 220,
                                 decoration: BoxDecoration(
-                                  color: AppColor.secondaryColors,
-                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.grey.shade400,
+
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(8),
+                                    topRight: Radius.circular(8),
+                                  ),
                                 ),
                                 child: Column(
                                   children: [
-                                    Container(
-                                      width: 159,
-                                      height: 220,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade400,
-
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(8),
-                                          topRight: Radius.circular(8),
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: .end,
-                                            children: [
-                                              IconButton(
-                                                onPressed: () {},
-                                                icon: const Icon(
-                                                  Icons.favorite_border,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const Row(
+                                    Row(
+                                      mainAxisAlignment: .end,
                                       children: [
-                                        SizedBox(width: 4),
-                                        Text(
-                                          "Men's Harrington Jacket",
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                    const Row(
-                                      children: [
-                                        SizedBox(width: 4),
-                                        Text(
-                                          "\$148.00",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w700,
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ],
@@ -395,22 +408,42 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                   ],
                                 ),
                               ),
+                              const Row(
+                                children: [
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "Men's Harrington Jacket",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                              const Row(
+                                children: [
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "\$148.00",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(width: 12);
-                        },
-                        itemCount: 3,
-                      ),
-                    ),
-                  ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 12);
+                  },
+                  itemCount: 3,
                 ),
               ),
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

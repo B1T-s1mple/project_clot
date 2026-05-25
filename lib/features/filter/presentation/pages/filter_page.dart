@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
 import 'package:scot/features/filter/presentation/pages/widgets/one.dart';
 import 'package:scot/features/filter/presentation/pages/widgets/three.dart';
 import 'package:scot/features/filter/presentation/pages/widgets/two.dart';
@@ -12,7 +15,7 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  List<Widget> control = [category(), not_found(), Three()];
+  List<Widget> control = [const category(), const not_found(), const Three()];
   final serachcontroller = TextEditingController();
   int con = 0;
   @override
@@ -32,12 +35,12 @@ class _FilterPageState extends State<FilterPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.keyboard_arrow_left_rounded,
                 color: Colors.black,
               ),
             ),
-            SizedBox(width: 9),
+            const SizedBox(width: 9),
             Expanded(
               child: SizedBox(
                 height: 40,
@@ -45,30 +48,27 @@ class _FilterPageState extends State<FilterPage> {
                   controller: serachcontroller,
                   onChanged: (value) {
                     setState(() {
-                      // value - bu foydalanuvchi yozayotgan tekst
-                      if (value.isEmpty) {
-                        con = 0; // Hech narsa yozilmasa 'category'
-                      } else if (value.toLowerCase() == 'jacket') {
-                        con =
-                            2; // 'jacket' deb yozsa natijalar (uchinchi widget)
-                      } else {
-                        con = 1; // Boshqa har qanday narsa yozsa 'not_found'
-                      }
+                         if (value.isEmpty) {
+                      con = 0;
+                    } else {
+                      con = 1;
+                    }
                     });
+                 
                   },
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
                       onPressed: () {},
-                      icon: Icon(Icons.search),
+                      icon: const Icon(Icons.search),
                     ),
                     suffixIcon: IconButton(
                       onPressed: () {
                         serachcontroller.text = '';
                       },
-                      icon: Icon(Icons.close),
+                      icon: const Icon(Icons.close),
                     ),
                     hintText: 'Search',
-                    hintStyle: TextStyle(fontSize: 14),
+                    hintStyle: const TextStyle(fontSize: 14),
                     fillColor: AppColor.secondaryColors,
                     filled: true,
                     border: OutlineInputBorder(

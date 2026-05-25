@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart'; 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
+import 'package:scot/features/home/cubit/category_cubit_state.dart';
 import 'package:scot/features/home/presentation/pages/home_products_page.dart';
-import 'package:scot/features/home/cubit/category_cubit_cubit.dart'; 
-import 'package:scot/features/home/cubit/category_cubit_state.dart'; 
 
 class HomeCategoriesPage extends StatefulWidget {
   const HomeCategoriesPage({super.key});
@@ -64,9 +64,7 @@ class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
                     final categories = state.categorise;
 
                     if (categories.isEmpty) {
-                      return const Center(
-                        child: Text("Kategoriya y'O"),
-                      );
+                      return const Center(child: Text("Kategoriya y'O"));
                     }
 
                     return ListView.separated(
@@ -80,12 +78,17 @@ class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
                         return InkWell(
                           borderRadius: BorderRadius.circular(8),
                           onTap: () {
-                            Navigator.push(
+                            setState(() {
+                                  Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const HomeProductsPage(),
+                                builder: (context) =>
+                                    HomeProductsPage(category_id: index + 1),
                               ),
                             );
+                            });
+                            print(index);
+                        
                           },
                           child: Container(
                             width: 342,

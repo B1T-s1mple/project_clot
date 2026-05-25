@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
+import 'package:scot/features/cart/cubit/product_cubit_state.dart';
+import 'package:scot/features/cart/model/products_model.dart';
 
 class HomeProductsPage extends StatefulWidget {
-  const HomeProductsPage({super.key});
-
+  const HomeProductsPage({super.key, this.category_id});
+  // ignore: non_constant_identifier_names
+  final int? category_id;
   @override
   State<HomeProductsPage> createState() => _HomeProductsPageState();
 }
 
 class _HomeProductsPageState extends State<HomeProductsPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    context.read<ProductCubit>().getProducts(categoryId: widget.category_id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +37,10 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(
+            Icons.keyboard_arrow_left_rounded,
+            color: Colors.black,
+          ),
         ),
       ),
       body: Padding(
@@ -43,45 +58,78 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
             ),
             const SizedBox(height: 23),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 30,
-                  mainAxisExtent: 281,
-                ),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Container(
-                        height: 281,
-                        decoration: BoxDecoration(
-                          color: AppColor.secondaryColors,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
+              child: BlocBuilder<ProductCubit, ProductState>(
+                builder: (context, state) {
+                  if (state is ProductsLoading) {
+                    return const CircularProgressIndicator.adaptive();
+                  } else if (state is ProductError) {
+                    return Center(child: Text(state.message));
+                  } else if (state is ProductsLoaded) {
+                    return GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 30,
+                            mainAxisSpacing: 30,
+                            mainAxisExtent: 281,
+                          ),
+                      itemCount: state.products.length,
+                      itemBuilder: (context, index) {
+                        final ProductModel product = state.products[index];
+                        return Column(
                           children: [
                             Container(
-                              height: 220,
+                              height: 281,
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade400,
-
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(8),
-                                  topRight: Radius.circular(8),
-                                ),
+                                color: AppColor.secondaryColors,
+                                borderRadius: BorderRadius.circular(8),
                               ),
                               child: Column(
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: .end,
+                                  Container(
+                                    height: 220,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade400,
+                                        image: DecorationImage(image: NetworkImage(product.images[index])),
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(8),
+                                        topRight: Radius.circular(8),
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: .end,
+                                          children: [
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.favorite_border,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                   Row(
                                     children: [
-                                      IconButton(
-                                        onPressed: () {},
-                                        icon: const Icon(
-                                          Icons.favorite_border,
-                                          color: Colors.black,
+                                      SizedBox(width: 4),
+                                      Text(
+                                        product.name,
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                   Row(
+                                    children: [
+                                      SizedBox(width: 4),
+                                      Text(
+                                        product.price.toString(),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
                                         ),
                                       ),
                                     ],
@@ -89,32 +137,12 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                                 ],
                               ),
                             ),
-                            const Row(
-                              children: [
-                                SizedBox(width: 4),
-                                Text(
-                                  "Men's Harrington Jacket",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            const Row(
-                              children: [
-                                SizedBox(width: 4),
-                                Text(
-                                  "\$148.00",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
-                        ),
-                      ),
-                    ],
-                  );
+                        );
+                      },
+                    );
+                  }
+                  return const Center(child: CircularProgressIndicator());
                 },
               ),
             ),
