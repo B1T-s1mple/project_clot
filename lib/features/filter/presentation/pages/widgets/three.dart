@@ -9,17 +9,15 @@ class Three extends StatefulWidget {
 }
 
 class _ThreeState extends State<Three> {
-  bool con1 = true;
-  bool con2 = false;
-  bool con3 = false;
-  bool con4 = false;
-  bool con1_2 = true;
-  bool con2_2 = false;
-  bool con3_2 = false;
-  bool con1_3 = true;
-  bool con2_3 = false;
-  bool con1_4 = false;
-  bool con2_4 = false;
+  // bool con1 = true;
+  // bool con2 = false;
+  // bool con3 = false;
+  // bool con4 = false;
+  String selectedSortBy = "Recommended";
+  String selectedGender = "Men";
+  String selectedDeals = 'on Sale';
+  String selectedPrice = "Min";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +51,7 @@ class _ThreeState extends State<Three> {
                 InkWell(
                   borderRadius: BorderRadius.circular(9876543234567),
                   onTap: () {
-                    botomsheet_3(context);
+                    dealsBotomsheet(context);
                   },
                   child: Container(
                     height: 30,
@@ -72,7 +70,7 @@ class _ThreeState extends State<Three> {
                 InkWell(
                   borderRadius: BorderRadius.circular(9876543234567),
                   onTap: () {
-                    botomsheet_4(context);
+                    priceBotomsheet(context);
                   },
                   child: Container(
                     height: 30,
@@ -93,7 +91,7 @@ class _ThreeState extends State<Three> {
                 InkWell(
                   borderRadius: BorderRadius.circular(9876543234567),
                   onTap: () {
-                    botomsheet(context);
+                    sortBotomsheet(context);
                   },
                   child: Container(
                     height: 30,
@@ -115,7 +113,7 @@ class _ThreeState extends State<Three> {
                 InkWell(
                   borderRadius: BorderRadius.circular(9876543234567),
                   onTap: () {
-                    botomsheet_2(context);
+                    genderBotomsheet(context);
                   },
 
                   child: Container(
@@ -226,7 +224,14 @@ class _ThreeState extends State<Three> {
     );
   }
 
-  Future<dynamic> botomsheet(BuildContext context) {
+  List<String> sortOptions = [
+    'Recommended',
+    'Newest',
+    'Lowest - Highest Price',
+    'Highest - Lowest Price',
+  ];
+
+  Future<dynamic> sortBotomsheet(BuildContext context) {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -234,45 +239,46 @@ class _ThreeState extends State<Three> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Clear', style: TextStyle(fontSize: 16)),
-                      const Text(
-                        'Sort by',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.check),
-                      ),
-                    ],
+                  const Text('Clear', style: TextStyle(fontSize: 16)),
+                  const Text(
+                    'Sort by',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-
-                  InkWell(
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.check),
+                  ),
+                ],
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: sortOptions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  final bool isSelected = selectedSortBy == sortOptions[index];
+                  return InkWell(
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      setModalState(() {
-                        con1 = !con1;
+                      setState(() {
+                        selectedSortBy = sortOptions[index];
                       });
                     },
                     child: Container(
                       height: 56,
                       decoration: BoxDecoration(
-                        color: con1
+                        color: isSelected
                             ? AppColor.primaryColors
                             : AppColor.secondaryColors,
                         borderRadius: BorderRadius.circular(100),
@@ -282,124 +288,29 @@ class _ThreeState extends State<Three> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Recommended',
+                            sortOptions[index],
                             style: TextStyle(
-                              color: con1 ? Colors.white : Colors.black,
+                              color: isSelected ? Colors.white : Colors.black,
                             ),
                           ),
-                          if (con1)
+                          if (isSelected)
                             const Icon(Icons.check, color: Colors.white),
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con2 = !con2;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Newest',
-                            style: TextStyle(
-                              color: con2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con2) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con3 = !con3;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con3
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Lowest - Highest Price',
-                            style: TextStyle(
-                              color: con3 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con3) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con4 = !con4;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con4
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Highest - Lowest Price',
-                            style: TextStyle(
-                              color: con4 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con4) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                  );
+                },
               ),
-            );
-          },
+              const SizedBox(height: 20),
+            ],
+          ),
         );
       },
     );
   }
 
-  Future<dynamic> botomsheet_2(BuildContext context) {
+  List<String> genderOptions = ['Men', 'Women', 'Kids'];
+  Future<dynamic> genderBotomsheet(BuildContext context) {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -407,146 +318,80 @@ class _ThreeState extends State<Three> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Clear', style: TextStyle(fontSize: 16)),
-                      const Text(
-                        'Gender',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.check),
-                      ),
-                    ],
+                  const Text('Clear', style: TextStyle(fontSize: 16)),
+                  const Text(
+                    'Gender',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = true;
-                        con2_2 = false;
-                        con3_2 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con1_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Men',
-                            style: TextStyle(
-                              color: con1_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con1_2) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.check),
                   ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = false;
-                        con2_2 = true;
-                        con3_2 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con2_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Women',
-                            style: TextStyle(
-                              color: con2_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con2_2) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = false;
-                        con2_2 = false;
-                        con3_2 = true;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con3_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'kids',
-                            style: TextStyle(
-                              color: con3_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con3_2) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
-            );
-          },
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: genderOptions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  final bool isSelected =
+                      selectedGender == genderOptions[index];
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {
+                      setState(() {
+                        selectedGender = genderOptions[index];
+                      });
+                    },
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColor.primaryColors
+                            : AppColor.secondaryColors,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            genderOptions[index],
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          if (isSelected)
+                            const Icon(Icons.check, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         );
       },
     );
   }
 
-  Future<dynamic> botomsheet_3(BuildContext context) {
+  List<String> dealsOptions = ['On sale', 'Free Shipping Eligible'];
+
+  Future<dynamic> dealsBotomsheet(BuildContext context) {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -554,110 +399,79 @@ class _ThreeState extends State<Three> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Clear', style: TextStyle(fontSize: 16)),
-                      const Text(
-                        'Deals',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.check),
-                      ),
-                    ],
+                  const Text('Clear', style: TextStyle(fontSize: 16)),
+                  const Text(
+                    'Deals',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_3 = true;
-                        con2_3 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con1_3
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'On sale',
-                            style: TextStyle(
-                              color: con1_3 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con1_3) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.check),
                   ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_3 = false;
-                        con2_3 = true;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con2_3
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Free Shipping Eligible',
-                            style: TextStyle(
-                              color: con2_3 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con2_3) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
-            );
-          },
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: dealsOptions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  final bool isSelected = selectedDeals == dealsOptions[index];
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {
+                      setState(() {
+                        selectedDeals = dealsOptions[index];
+                      });
+                    },
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColor.primaryColors
+                            : AppColor.secondaryColors,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            genderOptions[index],
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          if (isSelected)
+                            const Icon(Icons.check, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         );
       },
     );
+  
   }
+  List<String> priceOptions = ['Min', 'Max'];
 
-  Future<dynamic> botomsheet_4(BuildContext context) {
+  Future<dynamic> priceBotomsheet(BuildContext context) {
     return showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -665,104 +479,71 @@ class _ThreeState extends State<Three> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Clear', style: TextStyle(fontSize: 16)),
-                      const Text(
-                        'Price',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.check),
-                      ),
-                    ],
+                  const Text('Clear', style: TextStyle(fontSize: 16)),
+                  const Text(
+                    'Price',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_4 = true;
-                        con2_4 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con1_4
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Min',
-                            style: TextStyle(
-                              color: con1_4 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con1_4) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(Icons.check),
                   ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_4 = false;
-                        con2_4 = true;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con2_4
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Max',
-                            style: TextStyle(
-                              color: con2_4 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con2_4) const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
-            );
-          },
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: priceOptions.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  final bool isSelected = selectedPrice == priceOptions[index];
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {
+                      setState(() {
+                        selectedPrice = priceOptions[index];
+                      });
+                    },
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColor.primaryColors
+                            : AppColor.secondaryColors,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            priceOptions[index],
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                            ),
+                          ),
+                          if (isSelected)
+                            const Icon(Icons.check, color: Colors.white),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         );
       },
     );

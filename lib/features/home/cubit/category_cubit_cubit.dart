@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/home/cubit/category_cubit_state.dart';
 import 'package:scot/features/home/repo/category_repo.dart';
 

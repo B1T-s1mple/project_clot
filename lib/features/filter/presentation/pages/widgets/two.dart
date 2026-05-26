@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
-import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
-import 'package:scot/features/cart/cubit/product_cubit_state.dart';
-import 'package:scot/features/cart/model/products_model.dart';
+
+import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
+import 'package:scot/features/home/cubit/category_cubit_state.dart';
+import 'package:scot/features/home/models/category_model.dart';
 import 'package:scot/features/home/presentation/pages/home_products_page.dart';
 
-// ignore: camel_case_types
-class category extends StatefulWidget {
-  const category({super.key});
+class Category extends StatefulWidget {
+  const Category({super.key});
 
   @override
-  State<category> createState() => _categoryState();
+  State<Category> createState() => _CategoryState();
 }
 
-class _categoryState extends State<category> {
+class _CategoryState extends State<Category> {
   @override
   void initState() {
-    // TODO: implement initState
-    context.read<ProductCubit>().getProducts();
+    context.read<CategoryCubitCubit>().getProducts();
 
     super.initState();
   }
@@ -40,23 +39,25 @@ class _categoryState extends State<category> {
           ),
           const SizedBox(height: 14),
           Expanded(
-            child: BlocBuilder<ProductCubit, ProductState>(
+            child: BlocBuilder<CategoryCubitCubit, CategoryCubitState>(
               builder: (context, state) {
-                if (state is ProductsLoading) {
-                  return const CircularProgressIndicator.adaptive();
-                } else if (state is ProductError) {
+                if (state is CategoryLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                } else if (state is CategoryError) {
                   return Center(child: Text(state.message));
-                } else if (state is ProductsLoaded) {
+                } else if (state is CategoryLoaded) {
                   return ListView.separated(
                     itemBuilder: (context, index) {
-                      final ProductModel product = state.products[index];
+                      final CategoryModel categ = state.categorise[index];
                       return InkWell(
                         borderRadius: BorderRadius.circular(8),
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomeProductsPage(),
+                              builder: (context) => const HomeProductsPage(),
                             ),
                           );
                         },
@@ -67,8 +68,11 @@ class _categoryState extends State<category> {
                             color: AppColor.secondaryColors,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child:  Row(
-                            children: [SizedBox(width: 20), Text(product.name)],
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 20),
+                              Text(categ.name),
+                            ],
                           ),
                         ),
                       );
@@ -76,10 +80,10 @@ class _categoryState extends State<category> {
                     separatorBuilder: (context, index) {
                       return const SizedBox(height: 8);
                     },
-                    itemCount: state.products.length,
+                    itemCount: state.categorise.length,
                   );
                 }
-                return Center(child: CircularProgressIndicator());
+                return const SizedBox();
               },
             ),
           ),

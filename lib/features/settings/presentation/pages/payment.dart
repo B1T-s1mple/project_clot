@@ -15,7 +15,7 @@ class _PaymentState extends State<Payment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actionsPadding: EdgeInsets.symmetric(horizontal: 24),
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 24),
 
         leading: IconButton(
           style: IconButton.styleFrom(
@@ -24,12 +24,12 @@ class _PaymentState extends State<Payment> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Payment',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
@@ -41,10 +41,10 @@ class _PaymentState extends State<Payment> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AddCard()),
+                MaterialPageRoute(builder: (context) => const AddCard()),
               );
             },
-            icon: Icon(Icons.add, color: Colors.black),
+            icon: const Icon(Icons.add, color: Colors.black),
           ),
         ],
       ),
@@ -53,12 +53,12 @@ class _PaymentState extends State<Payment> {
         child: Column(
           crossAxisAlignment: .start,
           children: [
-            SizedBox(height: 25),
-            Text(
+            const SizedBox(height: 25),
+            const Text(
               'Cards',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             ListView.separated(
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -75,13 +75,13 @@ class _PaymentState extends State<Payment> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Row(
                         children: [
-                          Text('**** 41870', style: TextStyle(fontSize: 16)),
-                          SizedBox(width: 12),
+                          const Text('**** 41870', style: TextStyle(fontSize: 16)),
+                          const SizedBox(width: 12),
                           Image.asset(AppImages.master_card),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.arrow_forward_ios_rounded),
+                            icon: const Icon(Icons.arrow_forward_ios_rounded),
                           ),
                         ],
                       ),
@@ -90,16 +90,16 @@ class _PaymentState extends State<Payment> {
                 );
               },
               separatorBuilder: (context, index) {
-                return SizedBox(height: 12);
+                return const SizedBox(height: 12);
               },
               itemCount: 2,
             ),
-            SizedBox(height: 32),
-            Text(
+            const SizedBox(height: 32),
+            const Text(
               'Paypal',
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             InkWell(
               borderRadius: BorderRadius.circular(100),
               onTap: () {},
@@ -113,11 +113,11 @@ class _PaymentState extends State<Payment> {
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   child: Row(
                     children: [
-                      Text('Cloth@gmail.com', style: TextStyle(fontSize: 16)),
-                      Spacer(),
+                      const Text('Cloth@gmail.com', style: TextStyle(fontSize: 16)),
+                      const Spacer(),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios_rounded),
+                        icon: const Icon(Icons.arrow_forward_ios_rounded),
                       ),
                     ],
                   ),

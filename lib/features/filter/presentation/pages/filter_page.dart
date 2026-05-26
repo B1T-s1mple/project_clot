@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
+import 'package:scot/features/cart/cubit/product_cubit_state.dart';
+import 'package:scot/features/filter/presentation/pages/widgets/new_page.dart';
 import 'package:scot/features/filter/presentation/pages/widgets/one.dart';
 import 'package:scot/features/filter/presentation/pages/widgets/three.dart';
 import 'package:scot/features/filter/presentation/pages/widgets/two.dart';
@@ -15,7 +16,7 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  List<Widget> control = [const category(), const not_found(), const Three()];
+  List<Widget> control = [const Category(), const NotFound(), const Three()];
   final serachcontroller = TextEditingController();
   int con = 0;
   @override
@@ -48,13 +49,12 @@ class _FilterPageState extends State<FilterPage> {
                   controller: serachcontroller,
                   onChanged: (value) {
                     setState(() {
-                         if (value.isEmpty) {
-                      con = 0;
-                    } else {
-                      con = 1;
-                    }
+                      if (value.isEmpty) {
+                        con = 0;
+                      } else {
+                        con = 2;
+                      }
                     });
-                 
                   },
                   decoration: InputDecoration(
                     prefixIcon: IconButton(
@@ -82,7 +82,19 @@ class _FilterPageState extends State<FilterPage> {
           ],
         ),
       ),
-      body: control[con],
+      body: con == 0
+          ? const Category()
+          : BlocBuilder<ProductCubit, ProductState>(
+              builder: (context, state) {
+                // if (state is ProductsLoaded) {
+                //   if (state.products.isEmpty) {
+                //     return const NotFound();
+                //   }
+                //   return const Three();
+                // }
+                return NewPage(lyuboy:['btrv','uybin','rdtfy'] );
+              },
+            ),
     );
   }
 }

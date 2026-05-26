@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/features/auth/presentation/page/sign_page.dart';
+import 'package:scot/features/settings/cubit/cubit_profil/profil_cubit.dart';
+import 'package:scot/features/settings/cubit/cubit_profil/profil_state.dart';
 import 'package:scot/features/settings/presentation/pages/adress.dart';
 import 'package:scot/features/settings/presentation/pages/payment.dart';
 import 'package:scot/features/settings/presentation/pages/wishlist.dart';
@@ -20,7 +23,17 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
     "Help",
     "Support",
   ];
-  final List<Widget> pages = [Adress(), Wishlist(), Payment()];
+  final List<Widget> pages = [
+    const Adress(),
+    const Wishlist(),
+    const Payment(),
+  ];
+  @override
+  void initState() {
+    context.read<ProfilCubit>().getinfo();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,82 +44,33 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: .center,
-              children: [
-                CircleAvatar(
-                  radius: 40,
-                  backgroundColor: AppColor.secondaryColors,
-                ),
-              ],
-            ),
-            SizedBox(height: 38),
-            Container(
-              height: 92,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: AppColor.secondaryColors,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: .center,
-                      crossAxisAlignment: .start,
-                      children: [
-                        Text(
-                          'Gilbert Jones',
-                          style: TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          'Glbertjones001@gmail.com',
-                          style: TextStyle(
-                            color: Color(0xFF27272780).withValues(alpha: 0.5),
-                          ),
-                        ),
-                        Text(
-                          '121-224-7890',
-                          style: TextStyle(
-                            color: Color(0xFF27272780).withValues(alpha: 0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'Edit',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColor.primaryColors,
-                        ),
+      body: BlocBuilder<ProfilCubit, ProfilState>(
+        builder: (context, state) {
+          if (state is ProfilLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is ProfilError) {
+            return Center(child: Text(state.message));
+          } else if (state is ProfilLoaded) {
+            final profil = state.profileInfolar;
+            print("${profil[0].addresses} ///////////////////////////qaspkojihugyftcgvhbjnokp");
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: .center,
+                    children: [
+                      CircleAvatar(
+                        radius: 40,
+                        backgroundImage: NetworkImage(profil[0].imageUrl),
+
+                        backgroundColor: AppColor.secondaryColors,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 26),
-            ListView.separated(
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  borderRadius: BorderRadius.circular(34567),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => pages[index]),
-                    );
-                  },
-                  child: Container(
-                    height: 56,
+                    ],
+                  ),
+                  const SizedBox(height: 38),
+                  Container(
+                    height: 92,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: AppColor.secondaryColors,
@@ -116,43 +80,118 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
                       child: Row(
                         mainAxisAlignment: .spaceBetween,
                         children: [
-                          Text('${texts[index]}'),
-                          Icon(Icons.keyboard_arrow_right, size: 30),
+                          Column(
+                            mainAxisAlignment: .center,
+                            crossAxisAlignment: .start,
+                            children: [
+                              Text(
+                                "${profil[0].firstName.toString()}  ${profil[0].lastName.toString()}",
+                                style: TextStyle(fontWeight: FontWeight.w700),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                profil[0].email.toString(),
+                                style: TextStyle(
+                                  color: const Color(
+                                    0xFF27272780,
+                                  ).withValues(alpha: 0.5),
+                                ),
+                              ),
+                              Text(
+                                ' ${profil[0].phone.toString()}',
+                                style: TextStyle(
+                                  color: const Color(
+                                    0xFF27272780,
+                                  ).withValues(alpha: 0.5),
+                                ),
+                              ),
+                            ],
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Edit',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColor.primaryColors,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 8);
-              },
-              itemCount: texts.length,
-            ),
-            SizedBox(height: 35),
-            Row(
-              mainAxisAlignment: .center,
-              children: [
-                TextButton(
-                  style: TextButton.styleFrom(),
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignPage()),
-                    );
-                  },
-                  child: Text(
-                    'Sign Out',
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  const SizedBox(height: 26),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(34567),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => pages[index],
+                            ),
+                          );
+                        },
+                        child: Container(
+                          height: 56,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColor.secondaryColors,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: .spaceBetween,
+                              children: [
+                                Text('${texts[index]}'),
+                                const Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: 30,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 8);
+                    },
+                    itemCount: texts.length,
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
+                  const SizedBox(height: 35),
+                  Row(
+                    mainAxisAlignment: .center,
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Sign Out',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          }
+          return SizedBox();
+        },
       ),
     );
   }
