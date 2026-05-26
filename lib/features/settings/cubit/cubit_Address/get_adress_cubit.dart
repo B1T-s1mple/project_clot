@@ -7,7 +7,7 @@ class GetAddressesCubit extends Cubit<GetAddressesState> {
 
   GetAddressesCubit(this.repo) : super(GetAddressesInitial());
 
-  Future<void> fetchAddresses() async {
+  Future<void> getadres() async {
     emit(GetAddressesLoading());
     try {
       final addresses = await repo.getAddresses();

@@ -17,7 +17,7 @@ class _AdressState extends State<Adress> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GetAddressesCubit(GetAdresRepo())..fetchAddresses(),
+      create: (context) => GetAddressesCubit(GetAdresRepo())..getadres(),
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -52,7 +52,7 @@ class _AdressState extends State<Adress> {
                   MaterialPageRoute(builder: (context) => const AddAdress()),
                 );
                 if (context.mounted) {
-                  context.read<GetAddressesCubit>().fetchAddresses();
+                  context.read<GetAddressesCubit>().getadres();
                 }
               },
               icon: const Icon(Icons.add, color: Colors.black),
