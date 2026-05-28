@@ -6,7 +6,7 @@ class GetCardRepo {
     Future<List<dynamic>> getcard() async {
     try {
       final response = await http.get(
-        Uri.parse("http://45.130.148.176:8000/user/addresses"),
+        Uri.parse("http://45.130.148.176:8000/user/cards"),
         headers: {
           'accept': 'application/json',
           'Authorization':

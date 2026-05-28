@@ -49,7 +49,6 @@ class _PaymentState extends State<Payment> {
                 backgroundColor: AppColor.secondaryColors,
               ),
               onPressed: () async {
-                // Yangi karta qo'shib qaytganda ro'yxatni yangilash
                 await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const AddCard()),
@@ -74,43 +73,42 @@ class _PaymentState extends State<Payment> {
               ),
               const SizedBox(height: 15),
 
-              // BlocBuilder orqali yuklanish, xato va muvaffaqiyat holatlarini ushlaymiz
-              Expanded(
-                child: BlocBuilder<GetCardCubit, GetCardState>(
-                  builder: (context, state) {
-                    if (state is GetAddressesLoading) {
+              BlocBuilder<GetCardCubit, GetCardState>(
+                builder: (context, state) {
+                  if (state is GetAddressesLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.deepPurple,
+                      ),
+                    );
+                  }
+              
+                  if (state is GetcardError) {
+                    return Center(
+                      child: Text(
+                        state.error,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }
+              
+                  if (state is Getcardsucces) {
+                    final cardList = state.addresses;
+              
+                    if (cardList.isEmpty) {
                       return const Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.deepPurple,
-                        ),
-                      );
-                    }
-
-                    if (state is GetcardError) {
-                      return Center(
                         child: Text(
-                          state.error,
-                          style: const TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          "Sizda hali kartalar mavjud emas",
+                          style: TextStyle(color: Colors.grey),
                         ),
                       );
                     }
-
-                    if (state is Getcardsucces) {
-                      final cardList = state.addresses;
-
-                      if (cardList.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            "Sizda hali kartalar mavjud emas",
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        );
-                      }
-
-                      return ListView.separated(
+              
+                    return Expanded(
+                      child: ListView.separated(
                         shrinkWrap: true,
                         itemCount: cardList.length,
                         separatorBuilder: (context, index) =>
@@ -119,7 +117,7 @@ class _PaymentState extends State<Payment> {
                           final currentCard = cardList[index];
                           final String cardNumber =
                               currentCard['card_number'] ?? '**** 41870';
-
+                                    
                           return InkWell(
                             borderRadius: BorderRadius.circular(8),
                             onTap: () {},
@@ -166,12 +164,12 @@ class _PaymentState extends State<Payment> {
                             ),
                           );
                         },
-                      );
-                    }
-
-                    return const SizedBox.shrink();
-                  },
-                ),
+                      ),
+                    );
+                  }
+              
+                  return const SizedBox.shrink();
+                },
               ),
 
               const SizedBox(height: 20),

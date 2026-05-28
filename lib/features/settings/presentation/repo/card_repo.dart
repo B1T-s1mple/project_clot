@@ -7,7 +7,7 @@ class Cardrepo {
     Future<void> addcard(CardModel addacrd) async {
     try {
       final response = await http.post(
-        Uri.parse("http://45.130.148.176:8000/user/card"),
+        Uri.parse("http://45.130.148.176:8000/user/cards"),
         headers: {
           'accept': 'application/json',
           'Content-Type': 'application/json',
