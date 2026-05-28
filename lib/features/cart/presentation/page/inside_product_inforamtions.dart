@@ -8,8 +8,8 @@ import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/cart/presentation/page/cart_page.dart';
 
 class InsideProductInforamtions extends StatefulWidget {
-  const InsideProductInforamtions({super.key});
-
+  const InsideProductInforamtions({super.key, required this.product});
+  final ProductModel product;
   @override
   State<InsideProductInforamtions> createState() =>
       _InsideProductInforamtionsState();
@@ -28,403 +28,376 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
   bool con5_2 = false;
   int son = 1;
   @override
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ProductCubit, ProductState>(
-        builder: (context, state) {
-          if (state is ProductsLoading) {
-            return const CircularProgressIndicator.adaptive();
-          } else if (state is ProductError) {
-            return Center(child: Text(state.message));
-          } else if (state is ProductsLoaded) {
-            final ProductModel product = state.products[1];
-            print(product);
-            return CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  toolbarHeight: 85,
-                  backgroundColor: Colors.white,
-                  centerTitle: false,
-                  titleSpacing: 24,
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            toolbarHeight: 85,
+            backgroundColor: Colors.white,
+            centerTitle: false,
+            titleSpacing: 24,
 
-                  title: IconButton(
-                    style: IconButton.styleFrom(
-                      backgroundColor: AppColor.secondaryColors,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded),
-                  ),
-                  actions: [
-                    IconButton(
-                      style: IconButton.styleFrom(
-                        backgroundColor: AppColor.secondaryColors,
-                      ),
-                      onPressed: () {},
-                      icon: const Icon(Icons.favorite_border),
-                    ),
-                    const SizedBox(width: 24),
-                  ],
+            title: IconButton(
+              style: IconButton.styleFrom(
+                backgroundColor: AppColor.secondaryColors,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            ),
+            actions: [
+              IconButton(
+                style: IconButton.styleFrom(
+                  backgroundColor: AppColor.secondaryColors,
                 ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 281,
-                        child: ListView.separated(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: 161,
-                              height: 248,
-                              decoration: BoxDecoration(
-                                color: AppColor.secondaryColors,
-
-                                image: DecorationImage(
-                                  image: NetworkImage(product.images[index]),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(width: 10);
-                          },
-                          itemCount: product.images.length,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              product.name,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 14),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              " \$${product.price.toString()}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: AppColor.primaryColors,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 33),
-                      Padding(
-                        // ignore: prefer_const_constructors
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(100),
-                          onTap: () {
-                            botomsheet(context);
-                          },
-                          child: Container(
-                            height: 56,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: AppColor.secondaryColors,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                children: [
-                                  Text('Size', style: TextStyle(fontSize: 16)),
-                                  Spacer(),
-                                  Text(
-                                    'S',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  SizedBox(width: 29),
-                                  Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    size: 34,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(100),
-                          onTap: () {
-                            botomsheet_2(context);
-                          },
-                          child: Container(
-                            height: 56,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: AppColor.secondaryColors,
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                              child: Row(
-                                children: [
-                                  Text('Color', style: TextStyle(fontSize: 16)),
-                                  Spacer(),
-                                  CircleAvatar(
-                                    radius: 8,
-                                    backgroundColor: Color(0xFFB3B68B),
-                                  ),
-                                  SizedBox(width: 29),
-                                  Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    size: 34,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(100),
-                          onTap: () {},
-                          child: Container(
-                            height: 56,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: AppColor.secondaryColors,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
-                              child: Row(
-                                children: [
-                                  const Text(
-                                    'Quantity',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  const Spacer(),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        son++;
-                                      });
-                                    },
-                                    child: const CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: AppColor.primaryColors,
-                                      foregroundColor: Colors.white,
-                                      child: Icon(Icons.add),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 23),
-                                  Text(
-                                    '$son',
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 23),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        if (son > 1) {
-                                          son--;
-                                        }
-                                      });
-                                    },
-                                    child: const CircleAvatar(
-                                      radius: 20,
-                                      backgroundColor: AppColor.primaryColors,
-                                      foregroundColor: Colors.white,
-                                      child: Icon(Icons.remove),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 26),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Text(
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.black.withValues(alpha: 0.5),
-                          ),
-                          "Built for life and made to last, this full-zip corduroy jacket is part of our Nike Life collection. The spacious fit gives you plenty of room to layer underneath, while the soft corduroy keeps it casual and timeless.",
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Shipping & Returns',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Free standard shipping and free 60-day returns',
-                              style: TextStyle(
-                                color: Colors.black.withValues(alpha: 0.5),
-
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Reviews',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              '4.5 Ratings',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Row(
-                          children: [
-                            Text(
-                              '213 Reviews',
-                              style: TextStyle(
-                                color: Colors.black.withValues(alpha: 0.5),
-
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
-                  sliver: SliverList.separated(
-                    itemCount: 2,
+                onPressed: () {},
+                icon: const Icon(Icons.favorite_border),
+              ),
+              const SizedBox(width: 24),
+            ],
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 281,
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return Container(
-                        height: 128,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                const CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: AppColor.secondaryColors,
-                                ),
-                                const SizedBox(width: 20),
-                                const Text(
-                                  'Alex Morgan',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const Spacer(),
-                                Image.asset(
-                                  AppImages.stars,
-                                  width: 80,
-                                  height: 16,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.black.withValues(alpha: 0.5),
-                              ),
-                              "Gucci transcribes its heritage, creativity, and innovation into a plenitude of collections. From staple items to distinctive\naccessories.",
-                            ),
-                            const SizedBox(height: 4),
-                            const Row(
-                              children: [
-                                Text(
-                                  '12days ago',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
+                        width: 161,
+                        height: 248,
+                        decoration: BoxDecoration(
+                          color: AppColor.secondaryColors,
+
+                          image: DecorationImage(
+                            image: NetworkImage(widget.product.images[index]),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       );
                     },
                     separatorBuilder: (context, index) {
-                      return const SizedBox(height: 12);
+                      return const SizedBox(width: 10);
                     },
+                    itemCount: widget.product.images.length,
                   ),
                 ),
+                const SizedBox(height: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        widget.product.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 14),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        " \$${widget.product.price.toString()}",
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: AppColor.primaryColors,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 33),
+                Padding(
+                  // ignore: prefer_const_constructors
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {
+                      botomsheet(context);
+                    },
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: AppColor.secondaryColors,
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Text('Size', style: TextStyle(fontSize: 16)),
+                            Spacer(),
+                            Text(
+                              'S',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(width: 29),
+                            Icon(Icons.keyboard_arrow_down_rounded, size: 34),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {
+                      botomsheet_2(context);
+                    },
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: AppColor.secondaryColors,
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            Text('Color', style: TextStyle(fontSize: 16)),
+                            Spacer(),
+                            CircleAvatar(
+                              radius: 8,
+                              backgroundColor: Color(0xFFB3B68B),
+                            ),
+                            SizedBox(width: 29),
+                            Icon(Icons.keyboard_arrow_down_rounded, size: 34),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {},
+                    child: Container(
+                      height: 56,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: AppColor.secondaryColors,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          children: [
+                            const Text(
+                              'Quantity',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            const Spacer(),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  son++;
+                                });
+                              },
+                              child: const CircleAvatar(
+                                radius: 20,
+                                backgroundColor: AppColor.primaryColors,
+                                foregroundColor: Colors.white,
+                                child: Icon(Icons.add),
+                              ),
+                            ),
+                            const SizedBox(width: 23),
+                            Text(
+                              '$son',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(width: 23),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  if (son > 1) {
+                                    son--;
+                                  }
+                                });
+                              },
+                              child: const CircleAvatar(
+                                radius: 20,
+                                backgroundColor: AppColor.primaryColors,
+                                foregroundColor: Colors.white,
+                                child: Icon(Icons.remove),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 26),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.black.withValues(alpha: 0.5),
+                    ),
+                    "Built for life and made to last, this full-zip corduroy jacket is part of our Nike Life collection. The spacious fit gives you plenty of room to layer underneath, while the soft corduroy keeps it casual and timeless.",
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Shipping & Returns',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Free standard shipping and free 60-day returns',
+                        style: TextStyle(
+                          color: Colors.black.withValues(alpha: 0.5),
+
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Reviews',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        '4.5 Ratings',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
+                    children: [
+                      Text(
+                        '213 Reviews',
+                        style: TextStyle(
+                          color: Colors.black.withValues(alpha: 0.5),
+
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
               ],
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsetsGeometry.symmetric(horizontal: 24),
+            sliver: SliverList.separated(
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 128,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 20,
+                            backgroundColor: AppColor.secondaryColors,
+                          ),
+                          const SizedBox(width: 20),
+                          const Text(
+                            'Alex Morgan',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 12,
+                            ),
+                          ),
+                          const Spacer(),
+                          Image.asset(AppImages.stars, width: 80, height: 16),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Colors.black.withValues(alpha: 0.5),
+                        ),
+                        "Gucci transcribes its heritage, creativity, and innovation into a plenitude of collections. From staple items to distinctive\naccessories.",
+                      ),
+                      const SizedBox(height: 4),
+                      const Row(
+                        children: [
+                          Text(
+                            '12days ago',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const SizedBox(height: 12);
+              },
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(

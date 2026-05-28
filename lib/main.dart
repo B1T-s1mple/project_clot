@@ -4,6 +4,7 @@ import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
 import 'package:scot/features/cart/presentation/repo/product_repo.dart';
 import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
+import 'package:scot/features/home/presentation/pages/home_first_page.dart';
 import 'package:scot/features/home/repo/category_repo.dart';
 import 'package:scot/features/settings/cubit/cubit_Address/addadres_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_Address/get_adress_cubit.dart';
@@ -38,12 +39,12 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProfilCubit(ProfilRepo())),
         BlocProvider(create: (context) => AddadresCubit(AddressRepo())),
         BlocProvider(create: (context) => GetAddressesCubit(GetAdresRepo())),
-        BlocProvider(create: (context) => AddCardCubit(Cardrepo() )),
+        BlocProvider(create: (context) => AddCardCubit(Cardrepo())),
         BlocProvider(create: (context) => GetCardCubit(GetCardRepo())),
       ],
 
       child: MaterialApp(
-        home: const FirsPageSettings(),
+        home: const HomeFirstPage(),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

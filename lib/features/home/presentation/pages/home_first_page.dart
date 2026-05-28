@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
@@ -18,8 +19,8 @@ class HomeFirstPage extends StatefulWidget {
 }
 
 class _HomeFirstPageState extends State<HomeFirstPage> {
+  @override
   void initState() {
-    // TODO: implement initState
     context.read<ProductCubit>().getProducts(gender: '');
     context.read<CategoryCubitCubit>().getProducts();
 
@@ -152,7 +153,10 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  context.read<ProductCubit>().getProducts(categoryId: index+1,gender: gender);
+                                  context.read<ProductCubit>().getProducts(
+                                    categoryId: index + 1,
+                                    gender: gender,
+                                  );
                                 },
                                 borderRadius: BorderRadius.circular(1000),
                                 child: CircleAvatar(
@@ -230,7 +234,9 @@ class _HomeFirstPageState extends State<HomeFirstPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const InsideProductInforamtions(),
+                                          InsideProductInforamtions(
+                                            product: product,
+                                          ),
                                     ),
                                   );
                                 },
