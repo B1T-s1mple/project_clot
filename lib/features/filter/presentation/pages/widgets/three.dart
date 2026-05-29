@@ -9,10 +9,7 @@ class Three extends StatefulWidget {
 }
 
 class _ThreeState extends State<Three> {
-  // bool con1 = true;
-  // bool con2 = false;
-  // bool con3 = false;
-  // bool con4 = false;
+
   String selectedSortBy = "Recommended";
   String selectedGender = "Men";
   String selectedDeals = 'on Sale';

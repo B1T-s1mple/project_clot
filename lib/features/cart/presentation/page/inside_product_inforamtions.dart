@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/core/constants/images/app_images.dart';
-import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
-import 'package:scot/features/cart/cubit/product_cubit_state.dart';
 import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/cart/presentation/page/cart_page.dart';
 
@@ -16,16 +13,9 @@ class InsideProductInforamtions extends StatefulWidget {
 }
 
 class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
-  bool con1 = true;
-  bool con2 = false;
-  bool con3 = false;
-  bool con4 = false;
-  bool con5 = false;
-  bool con1_2 = true;
-  bool con2_2 = false;
-  bool con3_2 = false;
-  bool con4_2 = false;
-  bool con5_2 = false;
+  String? selectedsize = "S";
+  String? selectedcolor = "Red";
+
   int son = 1;
   @override
   @override
@@ -105,7 +95,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                 ),
                 const SizedBox(height: 14),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     children: [
                       Text(
@@ -121,12 +111,11 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                 ),
                 const SizedBox(height: 33),
                 Padding(
-                  // ignore: prefer_const_constructors
-                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      botomsheet(context);
+                      sizeBotomsheet(context);
                     },
                     child: Container(
                       height: 56,
@@ -161,7 +150,7 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                   child: InkWell(
                     borderRadius: BorderRadius.circular(100),
                     onTap: () {
-                      botomsheet_2(context);
+                      colorBotomsheet(context);
                     },
                     child: Container(
                       height: 56,
@@ -449,8 +438,10 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
     );
   }
 
-  Future<dynamic> botomsheet(BuildContext context) {
+  List<String> colorOptions = ['Orange', 'Black', 'Red', 'Yellow', 'Blue'];
+  Future<dynamic> colorBotomsheet(BuildContext context) {
     return showModalBottomSheet(
+      isScrollControlled: true,
       backgroundColor: Colors.white,
       context: context,
       shape: const RoundedRectangleBorder(
@@ -458,18 +449,127 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
       ),
       builder: (context) {
         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
+          builder: (BuildContext context, StateSetter setBotSheetState) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const SizedBox(height: 20),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Clear', style: TextStyle(fontSize: 16)),
+                      GestureDetector(
+                        onTap: () {
+                          setBotSheetState(() {
+                            selectedcolor = null;
+                          });
+                        },
+                        child: const Text(
+                          'Clear',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                      const Text(
+                        'Color',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(Icons.check),
+                      ),
+                    ],
+                  ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: colorOptions.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 20),
+                    itemBuilder: (context, index) {
+                      final bool isSelected =
+                          selectedcolor == colorOptions[index];
+                      return InkWell(
+                        borderRadius: BorderRadius.circular(100),
+                        onTap: () {
+                          setBotSheetState(() {
+                            selectedcolor = colorOptions[index];
+                          });
+                        },
+                        child: Container(
+                          height: 56,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppColor.primaryColors
+                                : AppColor.secondaryColors,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                colorOptions[index],
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
+                              if (isSelected)
+                                const Icon(Icons.check, color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  List<String> sizeOptions = ['S', 'M', 'L', 'XL', '2XL'];
+
+  Future<dynamic> sizeBotomsheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setBotSheetState) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setBotSheetState(() {
+                            selectedsize = null;
+                          });
+                        },
+                        child: const Text(
+                          'Clear',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
                       const Text(
                         'Size',
                         style: TextStyle(
@@ -483,443 +583,51 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 15),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1 = true;
-                        con2 = false;
-                        con3 = false;
-                        con4 = false;
-                        con5 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con1
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: sizeOptions.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 20),
+                    itemBuilder: (context, index) {
+                      final bool isSelected =
+                          selectedsize == sizeOptions[index];
+                      return InkWell(
                         borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'S',
-                            style: TextStyle(
-                              color: con1 ? Colors.white : Colors.black,
-                            ),
+                        onTap: () {
+                          setBotSheetState(() {
+                            selectedsize = sizeOptions[index];
+                          });
+                        },
+                        child: Container(
+                          height: 56,
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? AppColor.primaryColors
+                                : AppColor.secondaryColors,
+                            borderRadius: BorderRadius.circular(100),
                           ),
-                          if (con1)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1 = false;
-                        con2 = true;
-                        con3 = false;
-                        con4 = false;
-                        con5 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'M',
-                            style: TextStyle(
-                              color: con2 ? Colors.white : Colors.black,
-                            ),
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                sizeOptions[index],
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
+                              if (isSelected)
+                                const Icon(Icons.check, color: Colors.white),
+                            ],
                           ),
-                          if (con2)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1 = false;
-                        con2 = false;
-                        con3 = true;
-                        con4 = false;
-                        con5 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con3
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'L',
-                            style: TextStyle(
-                              color: con3 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con3)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1 = false;
-                        con2 = false;
-                        con3 = false;
-                        con4 = true;
-                        con5 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con4
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'XL',
-                            style: TextStyle(
-                              color: con4 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con4)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1 = false;
-                        con2 = false;
-                        con3 = false;
-                        con4 = false;
-                        con5 = true;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con5
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '2XL',
-                            style: TextStyle(
-                              color: con5 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          if (con5)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.8),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Future<dynamic> botomsheet_2(BuildContext context) {
-    return showModalBottomSheet(
-      backgroundColor: Colors.white,
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setModalState) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const SizedBox(height: 20),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Clear', style: TextStyle(fontSize: 16)),
-                      const Text(
-                        'Sort by',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.check),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                   const SizedBox(height: 20),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = true;
-                        con2_2 = false;
-                        con3_2 = false;
-                        con4_2 = false;
-                        con5_2 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con1_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Orange',
-                            style: TextStyle(
-                              color: con1_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const CircleAvatar(
-                            radius: 8,
-                            backgroundColor: Colors.orange,
-                          ),
-                          if (con1_2)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = false;
-                        con2_2 = true;
-                        con3_2 = false;
-                        con4_2 = false;
-                        con5_2 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con2_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Black',
-                            style: TextStyle(
-                              color: con2_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const CircleAvatar(
-                            radius: 8,
-                            backgroundColor: Colors.black,
-                          ),
-                          if (con2_2)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = false;
-                        con2_2 = false;
-                        con3_2 = true;
-                        con4_2 = false;
-                        con5_2 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con3_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Red',
-                            style: TextStyle(
-                              color: con3_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const CircleAvatar(
-                            radius: 8,
-                            backgroundColor: Colors.red,
-                          ),
-
-                          if (con3_2)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = false;
-                        con2_2 = false;
-                        con3_2 = false;
-                        con4_2 = true;
-                        con5_2 = false;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con4_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Yellow',
-                            style: TextStyle(
-                              color: con4_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const CircleAvatar(
-                            radius: 8,
-                            backgroundColor: Colors.yellow,
-                          ),
-                          if (con4_2)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  InkWell(
-                    borderRadius: BorderRadius.circular(100),
-                    onTap: () {
-                      setModalState(() {
-                        con1_2 = false;
-                        con2_2 = false;
-                        con3_2 = false;
-                        con4_2 = false;
-                        con5_2 = true;
-                      });
-                    },
-                    child: Container(
-                      height: 56,
-                      decoration: BoxDecoration(
-                        color: con5_2
-                            ? AppColor.primaryColors
-                            : AppColor.secondaryColors,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Red',
-                            style: TextStyle(
-                              color: con5_2 ? Colors.white : Colors.black,
-                            ),
-                          ),
-                          const CircleAvatar(
-                            radius: 8,
-                            backgroundColor: Colors.red,
-                          ),
-
-                          if (con5_2)
-                            const Icon(Icons.check, color: Colors.white),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 2.8),
                 ],
               ),
             );
