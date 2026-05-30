@@ -4,7 +4,6 @@ import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/features/auth/presentation/model/auth_model.dart';
 import 'package:scot/features/auth/presentation/page/sign_page.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
-import 'package:scot/features/home/presentation/widgets/bar.dart';
 
 class XzPage extends StatefulWidget {
   final int userId;

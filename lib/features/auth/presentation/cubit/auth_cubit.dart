@@ -12,7 +12,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthLoading());
     try {
       final user = await authRepo.register(request);
-      emit(Signup(user.id!));
+      emit(Signup(user.id));
     } catch (e) {
       emit(AuthError(e.toString()));
     }

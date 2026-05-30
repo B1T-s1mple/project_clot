@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/core/constants/images/app_images.dart';
-import 'package:scot/features/auth/presentation/page/xz_page.dart';
 
 class SentEmailAdrres extends StatefulWidget {
   const SentEmailAdrres({super.key});
@@ -36,10 +35,7 @@ class _SentEmailAdrresState extends State<SentEmailAdrres> {
               InkWell(
                 borderRadius: BorderRadius.circular(40),
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => const XzPage()),
-                  // );
+      
                 },
                 child: Container(
                   width: 159,
