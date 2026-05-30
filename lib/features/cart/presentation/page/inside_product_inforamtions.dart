@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
 import 'package:scot/core/constants/images/app_images.dart';
+import 'package:scot/features/cart/cubit/add_cart_cubit/add_to_Bag_cubit.dart';
+import 'package:scot/features/cart/cubit/add_cart_cubit/add_to_Bag_state.dart';
 import 'package:scot/features/cart/model/products_model.dart';
 import 'package:scot/features/cart/presentation/page/cart_page.dart';
 
@@ -388,49 +391,85 @@ class _InsideProductInforamtionsState extends State<InsideProductInforamtions> {
           ),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(
-          left: 24,
-          right: 24,
-          bottom: 30,
-          top: 10,
-        ),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(100),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const CartPage()),
+      bottomNavigationBar: BlocListener<AddToBagCubit, AddtoBagState>(
+        listener: (context, state) {
+          if (state is AddtoBagLoading) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('hoz sabr qoshilvot')),
             );
-          },
-          child: Container(
-            height: 52,
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            decoration: BoxDecoration(
-              color: const Color(0xFF8E6CEF),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '\$148',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+          } else if (state is AddtoBagError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('ashibka: ${state.message}'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('qoshildi nado budet'),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const CartPage(),),
+            );
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 24,
+            right: 24,
+            bottom: 30,
+            top: 10,
+          ),
+          child: InkWell(
+            borderRadius: BorderRadius.circular(100),
+            onTap: () {
+              if (selectedsize != null && selectedcolor != null) {
+                context.read<AddToBagCubit>().addToBag(
+                  productId: widget.product.id,
+                  color: selectedcolor!,
+                  size: selectedsize!,
+                  quantity: son,
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('razmerini tanla OOOUU !!!!!!!!!!'),
                   ),
-                ),
-
-                Text(
-                  'Add to Bag',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                );
+              }
+            },
+            child: Container(
+              height: 52,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              decoration: BoxDecoration(
+                color: const Color(0xFF8E6CEF),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '\$${widget.product.price * son}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-              ],
+                  const Text(
+                    'Add to Bag',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

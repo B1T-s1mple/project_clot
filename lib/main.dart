@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
+import 'package:scot/features/cart/cubit/add_cart_cubit/add_to_Bag_cubit.dart';
 import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
+import 'package:scot/features/cart/presentation/repo/add_to_Bag_repo.dart';
 import 'package:scot/features/cart/presentation/repo/product_repo.dart';
 import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
 import 'package:scot/features/home/presentation/pages/home_first_page.dart';
@@ -11,8 +13,6 @@ import 'package:scot/features/settings/cubit/cubit_Address/get_adress_cubit.dart
 import 'package:scot/features/settings/cubit/cubit_card/add_card_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_card/get_card_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_profil/profil_cubit.dart';
-import 'package:scot/features/settings/presentation/pages/adress.dart';
-import 'package:scot/features/settings/presentation/pages/firs_page_settings.dart';
 import 'package:scot/features/settings/presentation/repo/adres_repo.dart';
 import 'package:scot/features/settings/presentation/repo/card_repo.dart';
 import 'package:scot/features/settings/presentation/repo/get_adres_repo.dart';
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => GetAddressesCubit(GetAdresRepo())),
         BlocProvider(create: (context) => AddCardCubit(Cardrepo())),
         BlocProvider(create: (context) => GetCardCubit(GetCardRepo())),
+        BlocProvider(create: (context) => AddToBagCubit(repo: AddToBagRepo())),
       ],
 
       child: MaterialApp(
