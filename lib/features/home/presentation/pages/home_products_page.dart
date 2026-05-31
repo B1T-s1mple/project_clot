@@ -6,9 +6,8 @@ import 'package:scot/features/cart/cubit/product_cubit_state.dart';
 import 'package:scot/features/cart/model/products_model.dart';
 
 class HomeProductsPage extends StatefulWidget {
-  const HomeProductsPage({super.key, this.category_id});
-  // ignore: non_constant_identifier_names
-  final int? category_id;
+  const HomeProductsPage({super.key, this.categoryid});
+  final int? categoryid;
   @override
   State<HomeProductsPage> createState() => _HomeProductsPageState();
 }
@@ -17,7 +16,7 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
   @override
   void initState() {
     // TODO: implement initState
-    context.read<ProductCubit>().getProducts(categoryId: widget.category_id);
+    context.read<ProductCubit>().getProducts(categoryId: widget.categoryid);
     super.initState();
   }
 
@@ -115,19 +114,19 @@ class _HomeProductsPageState extends State<HomeProductsPage> {
                                   ),
                                    Row(
                                     children: [
-                                      SizedBox(width: 4),
+                                      const SizedBox(width: 4),
                                       Text(
                                         product.name,
-                                        style: TextStyle(fontSize: 12),
+                                        style: const TextStyle(fontSize: 12),
                                       ),
                                     ],
                                   ),
                                    Row(
                                     children: [
-                                      SizedBox(width: 4),
+                                      const SizedBox(width: 4),
                                       Text(
                                         product.price.toString(),
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w700,
                                         ),

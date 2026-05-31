@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scot/features/auth/presentation/page/first_page.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'package:scot/features/cart/cubit/add_cart_cubit/add_to_Bag_cubit.dart';
+import 'package:scot/features/cart/cubit/get_cards_cubit/get_cards_state.dart';
 import 'package:scot/features/cart/cubit/product_cubit_cubit.dart';
+import 'package:scot/features/cart/presentation/page/cart_page.dart';
 import 'package:scot/features/cart/presentation/repo/add_to_Bag_repo.dart';
+import 'package:scot/features/cart/presentation/repo/getCards_repo.dart';
 import 'package:scot/features/cart/presentation/repo/product_repo.dart';
 import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
 import 'package:scot/features/home/presentation/pages/home_first_page.dart';
@@ -42,10 +46,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AddCardCubit(Cardrepo())),
         BlocProvider(create: (context) => GetCardCubit(GetCardRepo())),
         BlocProvider(create: (context) => AddToBagCubit(repo: AddToBagRepo())),
+        BlocProvider(create: (context) => GetCardsCubit(GetcardsRepo())),
       ],
 
       child: MaterialApp(
-        home: const HomeFirstPage(),
+        home: const CartPage(),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

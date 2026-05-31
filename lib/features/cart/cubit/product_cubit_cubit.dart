@@ -4,7 +4,7 @@ import 'package:scot/features/cart/presentation/repo/product_repo.dart';
 
 class ProductCubit extends Cubit<ProductState> {
   final ProductsRepo repo;
-  ProductCubit({required this.repo}) : super(ProductInit());
+  ProductCubit({required this.repo}) : super(const ProductInit());
 
   Future<void> getProducts({
     String? search,

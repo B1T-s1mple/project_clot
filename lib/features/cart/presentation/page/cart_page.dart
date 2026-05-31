@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/cart/cubit/get_cards_cubit/get_cards_cubit.dart';
+import 'package:scot/features/cart/cubit/get_cards_cubit/get_cards_state.dart';
 import 'package:scot/features/cart/presentation/page/chekcout_page.dart';
 
 class CartPage extends StatefulWidget {
@@ -11,11 +14,16 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   @override
+  void initState() {
+    context.read<GetCardsCubit>().getAllCards();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actionsPadding: const EdgeInsets.symmetric(horizontal: 24),
-
         leading: IconButton(
           style: IconButton.styleFrom(
             backgroundColor: AppColor.secondaryColors,
@@ -23,7 +31,10 @@ class _CartPageState extends State<CartPage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(
+            Icons.keyboard_arrow_left_rounded,
+            color: Colors.black,
+          ),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -38,7 +49,7 @@ class _CartPageState extends State<CartPage> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: .end,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
                   onPressed: () {},
@@ -50,111 +61,150 @@ class _CartPageState extends State<CartPage> {
               ],
             ),
             Expanded(
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppColor.secondaryColors,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        children: [
-                          Container(width: 60, height: 64, color: Colors.grey),
-                          const SizedBox(width: 12),
-                          Column(
-                            mainAxisAlignment: .center,
-                            crossAxisAlignment: .start,
-                            children: [
-                              const Row(
-                                children: [
-                                  Text("Men's Harrington Jacket"),
-                                  SizedBox(width: 178),
-                                  Text(
-                                    '\$148',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Size',
-                                        style: TextStyle(
-                                          color: Colors.black.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(' - M'),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 16),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Color',
-                                        style: TextStyle(
-                                          color: Colors.black.withValues(
-                                            alpha: 0.5,
-                                          ),
-                                        ),
-                                      ),
-                                      const Text(' - Lemon'),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 149),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {},
-                                        child: const CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor:
-                                              AppColor.primaryColors,
-                                          foregroundColor: Colors.white,
-                                          child: Icon(Icons.add, size: 15),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: const CircleAvatar(
-                                          radius: 12,
-                                          backgroundColor:
-                                              AppColor.primaryColors,
-                                          foregroundColor: Colors.white,
-                                          child: Icon(Icons.remove, size: 15),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
+              child: BlocBuilder<GetCardsCubit, GetCardsState>(
+                builder: (context, state) {
+                  if (state is GetCardsLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (state is GetCardsLoaded) {
+                    print(state.cards.length);
+                    return ListView.separated(
+                      itemCount: state.cards.length,
+                      itemBuilder: (context, index) {
+                        final item = state.cards[index];
+
+                        return Container(
+                          height: 80,
+                          decoration: BoxDecoration(
+                            boxShadow: null,
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColor.secondaryColors,
                           ),
-                        ],
-                      ),
-                    ),
-                  );
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 60,
+                                  height: 64,
+                                  color: Colors.grey,
+                                  child: Image.network(
+                                    item.product.images[index],
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              item.product.name,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          Text(
+                                            '\$${item.product.price.toStringAsFixed(0)}',
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Size',
+                                                style: TextStyle(
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.5),
+                                                ),
+                                              ),
+                                              Text(' - ${item.size}'),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Color',
+                                                style: TextStyle(
+                                                  color: Colors.black
+                                                      .withValues(alpha: 0.5),
+                                                ),
+                                              ),
+                                              Text(' - ${item.color}'),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          Row(
+                                            children: [
+                                              InkWell(
+                                                onTap: () {},
+                                                child: const CircleAvatar(
+                                                  radius: 12,
+                                                  backgroundColor:
+                                                      AppColor.primaryColors,
+                                                  foregroundColor: Colors.white,
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    size: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 8),
+                                              InkWell(
+                                                onTap: () {},
+                                                child: const CircleAvatar(
+                                                  radius: 12,
+                                                  backgroundColor:
+                                                      AppColor.primaryColors,
+                                                  foregroundColor: Colors.white,
+                                                  child: Icon(
+                                                    Icons.remove,
+                                                    size: 15,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 10);
+                      },
+                    );
+                  }
+
+                  return const SizedBox();
                 },
-                separatorBuilder: (context, index) {
-                  return const SizedBox(height: 10);
-                },
-                itemCount: 2,
               ),
             ),
             Row(
-              mainAxisAlignment: .spaceBetween,
-
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Suptotal',
@@ -170,7 +220,7 @@ class _CartPageState extends State<CartPage> {
               ],
             ),
             Row(
-              mainAxisAlignment: .spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Shipping Cost',
@@ -186,8 +236,7 @@ class _CartPageState extends State<CartPage> {
               ],
             ),
             Row(
-              mainAxisAlignment: .spaceBetween,
-
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Tax',
@@ -203,8 +252,7 @@ class _CartPageState extends State<CartPage> {
               ],
             ),
             Row(
-              mainAxisAlignment: .spaceBetween,
-
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Total',
@@ -284,7 +332,7 @@ class _CartPageState extends State<CartPage> {
               borderRadius: BorderRadius.circular(100),
             ),
             child: const Row(
-              mainAxisAlignment: .center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'Chekcout',

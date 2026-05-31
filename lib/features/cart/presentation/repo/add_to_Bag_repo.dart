@@ -24,7 +24,7 @@ class AddToBagRepo {
         headers: {
           'accept': 'application/json',
           'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxOSIsImV4cCI6MTc4MDIwNDY1NX0.1Pv3F7eOiFKeo5Ih_gbz8k609veJyif0hh0c96H6ZfU', 
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMCIsImV4cCI6MTc4MDMxMzc5Nn0.J_8WU073qBQY9BAWTcs8-7PBOBZXf8jZE-AUbIHBNt8', 
         },
       );
 

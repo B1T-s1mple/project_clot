@@ -83,7 +83,7 @@ class _HomeCategoriesPageState extends State<HomeCategoriesPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    HomeProductsPage(category_id: index + 1),
+                                    HomeProductsPage(categoryid: index + 1),
                               ),
                             );
                             });
