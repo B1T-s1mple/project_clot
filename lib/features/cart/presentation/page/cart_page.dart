@@ -72,7 +72,7 @@ class _CartPageState extends State<CartPage> {
                     return ListView.separated(
                       itemCount: state.cards.length,
                       itemBuilder: (context, index) {
-                        final item = state.cards[index];
+                        final item = state.cards[index].product;
 
                         return Container(
                           height: 80,
@@ -90,7 +90,9 @@ class _CartPageState extends State<CartPage> {
                                   height: 64,
                                   color: Colors.grey,
                                   child: Image.network(
-                                    item.product.images[index],
+                                    item.images.isNotEmpty
+                                        ? item.images.first
+                                        : 'https://placeholder.com/image.png',
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -107,13 +109,13 @@ class _CartPageState extends State<CartPage> {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              item.product.name,
+                                              item.name,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           Text(
-                                            '\$${item.product.price.toStringAsFixed(0)}',
+                                            '\$${item.price.toStringAsFixed(0)}',
                                             style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w700,
@@ -135,7 +137,9 @@ class _CartPageState extends State<CartPage> {
                                                       .withValues(alpha: 0.5),
                                                 ),
                                               ),
-                                              Text(' - ${item.size}'),
+                                              Text(
+                                                ' - ${state.cards[index].size}',
+                                              ),
                                             ],
                                           ),
                                           const SizedBox(width: 16),
@@ -148,7 +152,9 @@ class _CartPageState extends State<CartPage> {
                                                       .withValues(alpha: 0.5),
                                                 ),
                                               ),
-                                              Text(' - ${item.color}'),
+                                              Text(
+                                                ' - ${state.cards[index].color}',
+                                              ),
                                             ],
                                           ),
                                           const Spacer(),
