@@ -20,6 +20,7 @@ class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
     "Returned",
     "Cancelled",
   ];
+  String selectedCategory = "Processing";
   @override
   void initState() {
     context.read<OrderCubit>().getOrders();
@@ -44,26 +45,57 @@ class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
           const SizedBox(height: 40),
           SizedBox(
             height: 35,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              scrollDirection: .horizontal,
-              itemBuilder: (context, index) {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    animationDuration: null,
-                    shadowColor: null,
-                    backgroundColor: AppColor.primaryColors,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () {},
-                  child: Text('${ordrepagecategoria[index]}'),
+            child: BlocBuilder<OrderCubit, OrderState>(
+              builder: (context, state) {
+                List<String> dinamikKategoriyalar = ordrepagecategoria;
+
+                if (state is OrdersLoaded) {
+                  for (int i = 0; i < state.orders.length; i++) {
+                    String status = state.orders[i].status;
+
+                    if (!ordrepagecategoria.contains(status)) {
+                      ordrepagecategoria.add(status);
+                    }
+                  }
+
+                  if (ordrepagecategoria.isNotEmpty) {
+                    dinamikKategoriyalar = ordrepagecategoria;
+                  }
+                }
+
+                return ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: dinamikKategoriyalar.length,
+                  itemBuilder: (context, index) {
+                    final currentCategory = dinamikKategoriyalar[index];
+                    final isSelected =
+                        selectedCategory.toLowerCase() ==
+                        currentCategory.toLowerCase();
+
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: isSelected
+                            ? AppColor.primaryColors
+                            : const Color(0xFFF4F4F4),
+                        foregroundColor: isSelected
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          selectedCategory = currentCategory;
+                        });
+                      },
+                      child: Text(currentCategory),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 13);
+                  },
                 );
               },
-              separatorBuilder: (context, index) {
-                return const SizedBox(width: 13);
-              },
-              itemCount: ordrepagecategoria.length,
             ),
           ),
           const SizedBox(height: 24),
@@ -87,9 +119,8 @@ class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => InsideOrder(
-                                id: orders.id.toString(),
-                              ),
+                              builder: (context) =>
+                                  InsideOrder(id: orders.id.toString()),
                             ),
                           );
                         },
