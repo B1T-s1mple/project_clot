@@ -4,7 +4,7 @@ import 'package:scot/features/home/repo/category_repo.dart';
 
 class CategoryCubitCubit extends Cubit<CategoryCubitState> {
   final CategoryRepo repo;
-  CategoryCubitCubit({required this.repo}) : super(const categoryinitial());
+  CategoryCubitCubit({required this.repo}) : super(const Categoryinitial());
 Future<void> getProducts() async {
   emit(CategoryLoading());
 

@@ -5,9 +5,8 @@ abstract class CategoryCubitState {
   const CategoryCubitState();
 }
 
-// ignore: camel_case_types
-class categoryinitial extends CategoryCubitState {
-  const categoryinitial();
+class Categoryinitial extends CategoryCubitState {
+  const Categoryinitial();
 }
 
 class CategoryLoading extends CategoryCubitState {

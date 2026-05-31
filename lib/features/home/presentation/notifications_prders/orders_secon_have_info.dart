@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:scot/core/constants/color/app_color.dart';
+import 'package:scot/features/home/cubit/cubit/order_cubit.dart';
+import 'package:scot/features/home/cubit/cubit/order_state.dart';
 import 'package:scot/features/home/presentation/notifications_prders/inside_order.dart';
 
 class OrdersSeconHaveInfo extends StatefulWidget {
@@ -10,19 +13,20 @@ class OrdersSeconHaveInfo extends StatefulWidget {
 }
 
 class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
-  // ignore: non_constant_identifier_names
-  final List<String> ordre_page_categoria = [
+  final List<String> ordrepagecategoria = [
     "Processing",
     "Shipped",
     "Delivered",
     "Returned",
     "Cancelled",
   ];
-  final List<Map<String, dynamic>> orders = [
-    {"orderId": "#456765", "itemCount": 4},
-    {"orderId": "#454569", "itemCount": 2},
-    {"orderId": "#454809", "itemCount": 1},
-  ];
+  @override
+  void initState() {
+    context.read<OrderCubit>().getOrders();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +34,18 @@ class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Orders',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
       ),
       body: Column(
         children: [
-          SizedBox(height: 40),
+          const SizedBox(height: 40),
           SizedBox(
             height: 35,
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               scrollDirection: .horizontal,
               itemBuilder: (context, index) {
                 return ElevatedButton(
@@ -53,74 +57,91 @@ class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
                     foregroundColor: Colors.white,
                   ),
                   onPressed: () {},
-                  child: Text('${ordre_page_categoria[index]}'),
+                  child: Text('${ordrepagecategoria[index]}'),
                 );
               },
               separatorBuilder: (context, index) {
-                return SizedBox(width: 13);
+                return const SizedBox(width: 13);
               },
-              itemCount: ordre_page_categoria.length,
+              itemCount: ordrepagecategoria.length,
             ),
           ),
-          SizedBox(height: 24),
+          const SizedBox(height: 24),
           Expanded(
-            child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            InsideOrder(id: orders[index]['orderId']),
-                      ),
-                    );
-                  },
-                  borderRadius: BorderRadius.circular(100),
-                  child: Container(
-                    width: 342,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: AppColor.secondaryColors,
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: Icon(Icons.receipt_long_sharp, size: 27),
-                        ),
-                        Column(
-                          mainAxisAlignment: .center,
-                          crossAxisAlignment: .start,
-                          children: [
-                            Text(
-                              "Order ${orders[index]['orderId']}",
-                              style: TextStyle(fontWeight: FontWeight.w700),
-                            ),
-                            Text(
-                              "${orders[index]['itemCount']} items",
-                              style: TextStyle(
-                                color: Color(0xFF27272780),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
+            child: BlocBuilder<OrderCubit, OrderState>(
+              builder: (context, state) {
+                if (state is OrdersLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is OrdersError) {
+                  return Center(child: Text(state.message));
+                } else if (state is OrdersLoaded) {
+                  print(state.orders.length);
+                  return ListView.separated(
+                    itemCount: state.orders.length,
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    itemBuilder: (context, index) {
+                      final orders = state.orders[index];
+
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => InsideOrder(
+                                id: orders.id.toString(),
                               ),
                             ),
-                          ],
+                          );
+                        },
+                        borderRadius: BorderRadius.circular(100),
+                        child: Container(
+                          width: 342,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColor.secondaryColors,
+                          ),
+                          child: Row(
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 24),
+                                child: Icon(Icons.receipt_long_sharp, size: 27),
+                              ),
+                              Column(
+                                mainAxisAlignment: .center,
+                                crossAxisAlignment: .start,
+                                children: [
+                                  Text(
+                                    "Order ${orders.id}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  Text(
+                                    "${orders.items.length} items",
+                                    style: const TextStyle(
+                                      color: Color(0xFF27272780),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              const Icon(Icons.arrow_forward_ios_rounded),
+                              const SizedBox(width: 10),
+                            ],
+                          ),
                         ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios_rounded),
-                        SizedBox(width: 10),
-                      ],
-                    ),
-                  ),
-                );
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(height: 15);
+                    },
+                  );
+                }
+                return const Center(child: CircularProgressIndicator());
               },
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 15);
-              },
-              itemCount: 3,
             ),
           ),
         ],

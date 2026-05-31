@@ -21,57 +21,57 @@ class _InsideOrderState extends State<InsideOrder> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
+          icon: const Icon(Icons.keyboard_arrow_left_rounded, color: Colors.black),
         ),
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.white,
         title: Text(
           'Order ${widget.id}',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            SizedBox(height: 41),
+            const SizedBox(height: 41),
             Row(
               children: [
                 CircleAvatar(
                   radius: 12,
-                  child: Icon(Icons.check, size: 15),
                   backgroundColor: Colors.deepPurpleAccent.withValues(
                     alpha: 0.3,
                   ),
                   foregroundColor: Colors.white,
+                  child: const Icon(Icons.check, size: 15),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Text(
                   'Delivered',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF27272780).withValues(alpha: 0.5),
+                    color: const Color(0xFF27272780).withValues(alpha: 0.5),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   '28 May',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Color(0xFF27272780).withValues(alpha: 0.5),
+                    color: const Color(0xFF27272780).withValues(alpha: 0.5),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 50),
-            Row(
+            const SizedBox(height: 50),
+            const Row(
               children: [
                 CircleAvatar(
                   radius: 12,
-                  child: Icon(Icons.check, size: 15),
                   backgroundColor: AppColor.primaryColors,
                   foregroundColor: Colors.white,
+                  child: Icon(Icons.check, size: 15),
                 ),
                 SizedBox(width: 12),
                 Text(
@@ -85,14 +85,14 @@ class _InsideOrderState extends State<InsideOrder> {
                 ),
               ],
             ),
-            SizedBox(height: 50),
-            Row(
+            const SizedBox(height: 50),
+            const Row(
               children: [
                 CircleAvatar(
                   radius: 12,
-                  child: Icon(Icons.check, size: 15),
                   backgroundColor: AppColor.primaryColors,
                   foregroundColor: Colors.white,
+                  child: Icon(Icons.check, size: 15),
                 ),
                 SizedBox(width: 12),
                 Text(
@@ -106,14 +106,14 @@ class _InsideOrderState extends State<InsideOrder> {
                 ),
               ],
             ),
-            SizedBox(height: 50),
-            Row(
+            const SizedBox(height: 50),
+            const Row(
               children: [
                 CircleAvatar(
                   radius: 12,
-                  child: Icon(Icons.check, size: 15),
                   backgroundColor: AppColor.primaryColors,
                   foregroundColor: Colors.white,
+                  child: Icon(Icons.check, size: 15),
                 ),
                 SizedBox(width: 12),
                 Text(
@@ -127,8 +127,8 @@ class _InsideOrderState extends State<InsideOrder> {
                 ),
               ],
             ),
-            SizedBox(height: 40),
-            Row(
+            const SizedBox(height: 40),
+            const Row(
               children: [
                 Text(
                   'Order items',
@@ -149,13 +149,13 @@ class _InsideOrderState extends State<InsideOrder> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
                       children: [
-                        Icon(Icons.receipt_long_outlined),
-                        SizedBox(width: 20),
-                        Text('4 items'),
-                        Spacer(),
+                        const Icon(Icons.receipt_long_outlined),
+                        const SizedBox(width: 20),
+                        const Text('4 items'),
+                        const Spacer(),
                         TextButton(
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             'View All',
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -169,8 +169,8 @@ class _InsideOrderState extends State<InsideOrder> {
                 ),
               ],
             ),
-            SizedBox(height: 40),
-            Row(
+            const SizedBox(height: 40),
+            const Row(
               children: [
                 Text(
                   'Shipping details',
@@ -178,7 +178,7 @@ class _InsideOrderState extends State<InsideOrder> {
                 ),
               ],
             ),
-            SizedBox(height: 14,),
+            const SizedBox(height: 14,),
             Row(
               children: [
                 Container(
@@ -189,7 +189,7 @@ class _InsideOrderState extends State<InsideOrder> {
                     borderRadius: BorderRadius.circular(8),
                     color: AppColor.secondaryColors,
                   ),
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: .start,
                     children: [
                       SizedBox(width: 11,),

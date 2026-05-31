@@ -4,7 +4,7 @@ class GetCards {
   final String color;
   final String size;
   final int quantity;
-  final ProductModel product; // Ichma-ich kelayotgan mahsulot obyekti
+  final ProductModel product; 
 
   GetCards({
     required this.id,
@@ -15,7 +15,6 @@ class GetCards {
     required this.product,
   });
 
-  // JSON'dan bitta obyektni o'qish
   factory GetCards.fromJson(Map<String, dynamic> json) {
     return GetCards(
       id: json['id'] ?? 0,

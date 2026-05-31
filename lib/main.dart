@@ -8,8 +8,10 @@ import 'package:scot/features/cart/presentation/repo/add_to_Bag_repo.dart';
 import 'package:scot/features/cart/presentation/repo/getCards_repo.dart';
 import 'package:scot/features/cart/presentation/repo/product_repo.dart';
 import 'package:scot/features/home/cubit/category_cubit_cubit.dart';
-import 'package:scot/features/home/presentation/pages/home_first_page.dart';
+import 'package:scot/features/home/cubit/cubit/order_cubit.dart';
+import 'package:scot/features/home/presentation/notifications_prders/orders_secon_have_info.dart';
 import 'package:scot/features/home/repo/category_repo.dart';
+import 'package:scot/features/home/repo/orders_repo.dart';
 import 'package:scot/features/settings/cubit/cubit_Address/addadres_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_Address/get_adress_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_card/add_card_cubit.dart';
@@ -45,10 +47,11 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => GetCardCubit(GetCardRepo())),
         BlocProvider(create: (context) => AddToBagCubit(repo: AddToBagRepo())),
         BlocProvider(create: (context) => GetCardsCubit(GetcardsRepo())),
+        BlocProvider(create: (context) => OrderCubit(repo: OrdersRepo())),
       ],
 
       child: MaterialApp(
-        home: const HomeFirstPage(),
+        home: const OrdersSeconHaveInfo(),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
