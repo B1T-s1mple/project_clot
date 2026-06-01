@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:scot/features/auth/presentation/page/first_page.dart';
 import 'package:scot/features/auth/presentation/repo/auth_repo.dart';
 import 'package:scot/features/cart/cubit/add_cart_cubit/add_to_Bag_cubit.dart';
 import 'package:scot/features/cart/cubit/get_cards_cubit/get_cards_state.dart';
@@ -17,6 +18,7 @@ import 'package:scot/features/settings/cubit/cubit_Address/get_adress_cubit.dart
 import 'package:scot/features/settings/cubit/cubit_card/add_card_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_card/get_card_cubit.dart';
 import 'package:scot/features/settings/cubit/cubit_profil/profil_cubit.dart';
+import 'package:scot/features/settings/presentation/pages/adress.dart';
 import 'package:scot/features/settings/presentation/repo/adres_repo.dart';
 import 'package:scot/features/settings/presentation/repo/card_repo.dart';
 import 'package:scot/features/settings/presentation/repo/get_adres_repo.dart';
@@ -51,7 +53,7 @@ class MyApp extends StatelessWidget {
       ],
 
       child: MaterialApp(
-        home: const OrdersSeconHaveInfo(),
+        home:  Adress(),
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(

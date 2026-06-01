@@ -327,7 +327,7 @@ class _CartPageState extends State<CartPage> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ChekcoutPage()),
+              MaterialPageRoute(builder: (context) =>  ChekcoutPage()),
             );
           },
           child: Container(

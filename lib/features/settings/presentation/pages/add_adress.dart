@@ -120,13 +120,13 @@ class _AddAdressState extends State<AddAdress> {
                         city: controllercity.text.trim(),
                         state: controllerstate.text.trim(),
                         zipCode: controllercode.text.trim(),
-                        street: controllerStreet.text.trim(),
+                        street: controllerStreet.text.trim(), 
                       );
 
                       context.read<AddadresCubit>().adadres(request);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const Adress()),
+                        MaterialPageRoute(builder: (context) =>  Adress()),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

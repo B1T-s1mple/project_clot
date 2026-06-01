@@ -16,14 +16,14 @@ class _NotificationSeconState extends State<NotificationSecon> {
         automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Notifications',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
         ),
       ),
       body: Column(
         children: [
-          SizedBox(height: 40,),
+          const SizedBox(height: 40,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: ListView.separated(
@@ -37,8 +37,8 @@ class _NotificationSeconState extends State<NotificationSecon> {
                     borderRadius: BorderRadius.circular(8),
                     color: AppColor.secondaryColors,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25),
                     child: Row(
                       children: [
 
@@ -57,7 +57,7 @@ class _NotificationSeconState extends State<NotificationSecon> {
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(height: 8);
+                return const SizedBox(height: 8);
               },
               itemCount: 3,
             ),

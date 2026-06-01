@@ -78,7 +78,7 @@ class _OrdersSeconHaveInfoState extends State<OrdersSeconHaveInfo> {
                         elevation: 0,
                         backgroundColor: isSelected
                             ? AppColor.primaryColors
-                            : const Color(0xFFF4F4F4),
+                            : const Color.fromARGB(255, 16, 2, 2),
                         foregroundColor: isSelected
                             ? Colors.white
                             : Colors.black,

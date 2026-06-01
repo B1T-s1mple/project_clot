@@ -7,7 +7,7 @@ import 'package:scot/features/settings/presentation/pages/add_adress.dart';
 import 'package:scot/features/settings/presentation/repo/get_adres_repo.dart';
 
 class Adress extends StatefulWidget {
-  const Adress({super.key});
+  Adress({super.key});
 
   @override
   State<Adress> createState() => _AdressState();
@@ -83,9 +83,7 @@ class _AdressState extends State<Adress> {
                     final addressList = state.addresses;
 
                     if (addressList.isEmpty) {
-                      return const Center(
-                        child: Text("not found karochi"),
-                      );
+                      return const Center(child: Text("not found karochi"));
                     }
 
                     return Padding(
@@ -100,38 +98,48 @@ class _AdressState extends State<Adress> {
                           final String fullAddress =
                               "${currentAddress['street']}, ${currentAddress['city']}, ${currentAddress['state']} ${currentAddress['zip_code']}";
 
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: AppColor.secondaryColors,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    fullAddress,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                          return InkWell(
+                            onTap: () {
+                              print(state.addresses[index]['id']);
+                        
+                            },
+                            borderRadius: BorderRadius.circular(8),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: AppColor.secondaryColors,
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      fullAddress,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                ),
-                                const SizedBox(width: 8),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    'Edit',
-                                    style: TextStyle(color: Colors.deepPurple),
+                                  const SizedBox(width: 8),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      'Edit',
+                                      style: TextStyle(
+                                        color: Colors.deepPurple,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         },

@@ -96,9 +96,9 @@ class UserModel {
     "image_url": imageUrl,
     "gender": gender,
     "age": age,
-    "addresses": List<dynamic>.from(addresses.map((x) => x.toJson())),
+    "addresses": List<dynamic>.from(addresses.map((i) => i.toJson())),
     "cards": 
-    List<dynamic>.from(cards.map((x) => x.toJson())),
+    List<dynamic>.from(cards.map((i) => i.toJson())),
   };
 }
 

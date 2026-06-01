@@ -1,4 +1,3 @@
-
 class AddAdressModel {
   final String street;
   final String city;
@@ -6,6 +5,7 @@ class AddAdressModel {
   final String zipCode;
 
   AddAdressModel({
+
     required this.street,
     required this.city,
     required this.state,

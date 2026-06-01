@@ -24,7 +24,7 @@ class _FirsPageSettingsState extends State<FirsPageSettings> {
     "Support",
   ];
   final List<Widget> pages = [
-    const Adress(),
+     Adress(),
     const Wishlist(),
     const Payment(),
   ];
